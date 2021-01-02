@@ -3,7 +3,6 @@ const require = createRequire(import.meta.url);
 const fs = require("fs");
 const path = require("path")
 import {ex_startServer} from "./server/http/server.mjs";
-import {ex_firstRun} from "./server/firstRun.mjs";
 
 let configFile = process.argv[2] || "config/config.json";
 
@@ -18,10 +17,9 @@ if(!fs.existsSync(configFile)){
 let parsedConfig = JSON.parse(fs.readFileSync(configFile, null));
 
 
-ex_firstRun(parsedConfig.database);
-console.log(parsedConfig);
 
 
 
-// ex_startServer("src/client");
+
+ex_startServer("src");
 

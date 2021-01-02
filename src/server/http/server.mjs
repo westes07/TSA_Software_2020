@@ -11,6 +11,7 @@ const mimeMap = {
     '.ico': 'image/x-icon',
     '.html': 'text/html',
     '.js': 'text/javascript',
+    '.mjs':'text/javascript',
     '.json': 'application/json',
     '.css': 'text/css',
     '.png': 'image/png',
