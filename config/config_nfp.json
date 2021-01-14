@@ -1,0 +1,8 @@
+{
+  "database": {
+    "ipAddress": "127.0.0.1",
+    "username": "db_payroll_admin",
+    "password": "MasterLego!34"
+  },
+  "defaultUser": "root"
+}
