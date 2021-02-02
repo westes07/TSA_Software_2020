@@ -2,7 +2,8 @@ import { createRequire } from 'module'
 const require = createRequire(import.meta.url);
 const fs = require("fs");
 const path = require("path")
-import {ex_startServer} from "./server/http/server.mjs";
+import {ex_startHttpServer} from "./server/http/server.mjs";
+import {ex_startRestServer} from "./server/http/server.mjs";
 
 let configFile = process.argv[2] || "config/config.json";
 
@@ -20,6 +21,6 @@ let parsedConfig = JSON.parse(fs.readFileSync(configFile, null));
 
 
 
-
-ex_startServer("src");
+ex_startRestServer(parsedConfig.rest);
+ex_startHttpServer("src/client");
 

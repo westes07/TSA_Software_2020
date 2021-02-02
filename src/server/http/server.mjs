@@ -1,10 +1,13 @@
 import { createRequire } from 'module'
 const require = createRequire(import.meta.url);
+const express = require("express");
 const http = require("http");
 const url = require("url");
 const fs = require("fs");
 const path = require("path");
 const port = 8080;
+
+let app = express();
 
 // Changes the file extensions to HTML recognisable content types
 const mimeMap = {
@@ -26,7 +29,7 @@ const mimeMap = {
     '.ttf': 'application/x-font-ttf'
 };
 
-function startServer(contentRoot) {
+function startHttpServer(contentRoot) {
     http.createServer(function(req,res){
         const reqUrl = url.parse(req.url);
         const sanitisedUrl = path.normalize(reqUrl.pathname).replace(/^(\.\.[\/\\])+/, '');
@@ -61,6 +64,32 @@ function startServer(contentRoot) {
     }).listen(port);
     console.log("INFO: Server is serving files from ", contentRoot, " on port ", port);
 
+    
+
 }
 
-export {startServer as ex_startServer};
+
+let test_get_func = function(req, res) {
+    res.end("TEST");
+};
+
+let functionMap = new Map();
+functionMap.set("test_get_func", test_get_func);
+
+// var server;
+
+function startRestServer(configJSON){
+    for(let i = 0; i < configJSON.get_num; i++){
+        app.get(configJSON.get_data[i].command, functionMap.get(configJSON.get_data[i].function_id));
+    }
+
+    var server = app.listen(8081, function () {
+        let host = server.address().address;
+        let port = server.address().port;
+        console.log("Rest Server is now listenting");
+    });
+    
+}
+
+export {startHttpServer as ex_startHttpServer};
+export {startRestServer as ex_startRestServer};

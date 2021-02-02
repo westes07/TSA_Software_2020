@@ -1,4 +1,17 @@
 {
+  "rest":{
+    "get_num": 1,
+    "get_data": [
+      {
+        "command":"/test_get",
+        "function_id":"test_get_func" 
+
+      }
+    ]
+
+  },
+
+
   "database": {
     "ipAddress": "127.0.0.1",
     "username": "db_payroll_admin",

@@ -6,6 +6,7 @@
     "run_dev": "node src/app.mjs config/config_nfp.json"
   },
   "dependencies": {
+    "express": "^4.17.1",
     "fs": "0.0.1-security",
     "http": "0.0.1-security",
     "mysql2": "^2.2.5",
