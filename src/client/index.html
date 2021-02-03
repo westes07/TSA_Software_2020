@@ -4,14 +4,27 @@
         <meta charset="UTF-8">
         <title>Test</title>
         <link rel="stylesheet" href="style.css" type="text/css" >
-        <script src="./app.mjs" type="module"></script>
+        <script src="./app.js" type="module"></script>
     </head>
     <body>
 
-        <input id="userName" type="text">
-        <input id="password" type="password">
-        <input id="passwordMatch" type="password" style="display: none;">
-        <input id="submit" type="button" value="button" onclick="checkData()">
+        <div id="sign_in_screen">
+            <div id="sign_in_box">
+                <h1>
+                    PAYROLL
+                </h1>
+                <h7>
+                    please sign in
+                </h7>
+                <input id="userName" class="app_text_box text_box_fill" type="text">
+                <input id="password" class="app_text_box text_box_fill" type="password">
+                <input id="passwordMatch" type="password" style="display: none;">
+                <div id="submit" class="app_button">Sign In</div>
+            </div>
+
+
+        </div>
+
 
     </body>
 </html>

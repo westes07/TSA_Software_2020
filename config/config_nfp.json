@@ -1,4 +1,16 @@
 {
+  "rest":{
+    "post_num": 1,
+    "post_data": [
+      {
+        "command": "/auth/manager",
+        "function_id":"auth_manager_func"
+      }
+    ]
+
+  },
+
+
   "database": {
     "ipAddress": "127.0.0.1",
     "username": "db_payroll_admin",
