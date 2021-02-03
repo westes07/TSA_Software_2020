@@ -1,4 +1,57 @@
 * {
     margin: 0;
     padding: 0;
+    font-family: 'Open Sans', sans-serif;
 }
+
+
+/*
+----------------------------------------SIGNIN-SCREEN--------------------------------------------
+*/
+#sign_in_screen {
+    background-color: #e6592e;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    
+
+}
+
+#sign_in_box {
+    display: block;
+    background-color: #ededed;
+    position: absolute;
+    text-align: center;
+    width: 250px;
+    height: 300px;
+
+
+    left:-webkit-calc(50% - 125px);
+    left:-moz-calc(50% - 125px);
+    left:clac(50% - 125px);
+    top: clac(25% - 150px);
+    top:-webkit-calc(25% - 150px);
+    top: -moz-clac(25% - 150px);
+
+
+}
+/*
+----------------------------------------TEXT-BOXES--------------------------------------------
+*/
+.app_text_box {
+    all: unset;
+    display: block;
+    background-color: #fff;
+    text-align: left;
+    position: relative;
+    padding: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    height: 25px;
+
+}
+.text_box_fill{
+    width: calc(100% - 10px);
+}
+

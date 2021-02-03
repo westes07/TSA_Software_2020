@@ -1,9 +1,17 @@
 import * as db from "../../server_code/database/databaseManagement.mjs"
 
 function auth_manager(req, res) {
-    console.log(req.body);
+    const data = req.body;
+    // TODO send data to database for auth
+    // This is a temp solution bc i dont have access to 
+    // the database rn
     res.send({
-        authSuccessfull: true
+        firstName: "Gregory",
+        postion: "Developer",
+        developerMode: true,
+        status:"valid",
+        authSuccessfull: true,
+        rules: {}
     });
 
 }
