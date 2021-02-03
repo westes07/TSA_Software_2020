@@ -2,8 +2,8 @@ import { createRequire } from 'module'
 const require = createRequire(import.meta.url);
 const fs = require("fs");
 const path = require("path")
-import {ex_startHttpServer} from "./server/http/server.mjs";
-import {ex_startRestServer} from "./server/http/server.mjs";
+import {ex_startHttpServer} from "./server/server.mjs";
+import {ex_startRestServer} from "./server/server.mjs";
 
 let configFile = process.argv[2] || "config/config.json";
 

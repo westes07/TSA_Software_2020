@@ -1,5 +1,8 @@
 import { createRequire } from 'module'
 const require = createRequire(import.meta.url);
+import functionMap from "./rest/functionMap.mjs"
+const bodyParser = require("body-parser");
+const cors = require("cors");
 const express = require("express");
 const http = require("http");
 const url = require("url");
@@ -7,7 +10,9 @@ const fs = require("fs");
 const path = require("path");
 const port = 8080;
 
-let app = express();
+const app = express();
+app.use(bodyParser.json());
+app.use(cors());
 
 // Changes the file extensions to HTML recognisable content types
 const mimeMap = {
@@ -37,7 +42,7 @@ function startHttpServer(contentRoot) {
 
         //check if file exists
         if(!fs.existsSync(urlPath)){
-            console.log("ERROR: file {} does not exist", urlPath);
+            console.log("ERROR: file %s does not exist", urlPath );
             //todo add 404 path
             return;
         }
@@ -51,7 +56,7 @@ function startHttpServer(contentRoot) {
             if(err){
                 res.statusCode = 500;
                 //todo add 500 path
-                res.end("ERROR: ${err} occured while getting files");
+                res.end("ERROR: %s occured while getting files", err);
             }
             else{
                 const ext = path.parse(urlPath).ext;
@@ -59,6 +64,8 @@ function startHttpServer(contentRoot) {
                 res.end(data);
             }
         })
+
+
 
 
     }).listen(port);
@@ -69,18 +76,14 @@ function startHttpServer(contentRoot) {
 }
 
 
-let test_get_func = function(req, res) {
-    res.end("TEST");
-};
-
-let functionMap = new Map();
-functionMap.set("test_get_func", test_get_func);
-
-// var server;
 
 function startRestServer(configJSON){
     for(let i = 0; i < configJSON.get_num; i++){
         app.get(configJSON.get_data[i].command, functionMap.get(configJSON.get_data[i].function_id));
+    }
+
+    for(let i = 0; i < configJSON.post_num; i++){
+        app.post(configJSON.post_data[i].command, functionMap.get(configJSON.post_data[i].function_id));
     }
 
     var server = app.listen(8081, function () {

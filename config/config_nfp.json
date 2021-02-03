@@ -1,11 +1,10 @@
 {
   "rest":{
-    "get_num": 1,
-    "get_data": [
+    "post_num": 1,
+    "post_data": [
       {
-        "command":"/test_get",
-        "function_id":"test_get_func" 
-
+        "command": "/auth/manager",
+        "function_id":"auth_manager_func"
       }
     ]
 
