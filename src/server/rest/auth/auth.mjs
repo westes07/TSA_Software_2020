@@ -32,6 +32,7 @@ async function auth_manager(req, res) {
         res.send({authSuccessful: false});
 
     }
+    db.ex_disconnect();
 
 }
 
