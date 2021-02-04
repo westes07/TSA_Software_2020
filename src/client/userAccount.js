@@ -2,10 +2,12 @@
 
 function sendData(e){
     e.preventDefault();
-    console.log("called");
+    document.getElementById("sign_in_form").style.display = "none";
+    document.getElementById("sign_in_post_message").style.display = "block";
 
     const userName = document.getElementById("userName").value;
     const password = document.getElementById("password").value;
+    document.getElementById("password").value = "";
 
     fetch("http://localhost:8081/auth/manager", {
         method:"POST",
@@ -30,7 +32,21 @@ function sendData(e){
 
 function signIn(resJSON){
     // do something with response
-    console.log(resJSON);
+    console.log(resJSON.authSuccessful);
+    if(resJSON.authSuccessful && resJSON.status === "valid"){
+        document.getElementById("sign_in_screen").classList.add("signed_in");
+    }
+    else {
+        document.getElementById("sign_in_form").style.display = "block";
+        document.getElementById("sign_in_post_message").style.display = "none";
+        document.getElementById("sign_in_message").style.color = "red";
+        document.getElementById("sign_in_message").innerText = "unable to authenticate user";
+    }
+
+
+
+
+
 }
 
 

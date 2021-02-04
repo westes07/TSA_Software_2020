@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "private": "true",
   "scripts": {
-    "run_dev": "node src/app.mjs config/config_nfp.json"
+    "run_dev": "node src/app.mjs config/config_nfp.json",
+    "run_dev_no_db": "node src/app.mjs config/config_nfp.json --no_db"
   },
   "dependencies": {
     "body-parser": "^1.19.0",

@@ -28,7 +28,7 @@ async function getUserData(_userName, _field) {
         console.log("Wild card operations are not allowed");
         return("ERROR");
     }
-    let query = "SELECT " + _field + " FROM users.user_data WHERE USER_NAME=?"
+    let query = "SELECT " + _field + " FROM users.user_data WHERE ACCOUNT_NAME=?"
     const [row, field] = await default_dbCon.promise().query(query, [_userName]);
 
     if(await row.length === 0){
@@ -39,7 +39,7 @@ async function getUserData(_userName, _field) {
 }
 
 function setUserData(_userName, _field, _data) {
-    let query = "UPDATE users.user_data SET " + _field + "=? WHERE USER_NAME=?";
+    let query = "UPDATE users.user_data SET " + _field + "=? WHERE ACCOUNT_NAME=?";
     default_dbCon.query(query, [_data, _userName], function (err, res, fields){
         if(err) {console.log(err);}
         // console.log(res);
@@ -52,7 +52,7 @@ function setUserPassword(_userName, _password) {
 }
 
 async function checkUserName(_userName, _password){
-    let res = await getUserData("root", "USER_PASSWORD");
+    let res = await getUserData(_userName, "USER_PASSWORD");
 
 
     if(res === null){
@@ -61,7 +61,7 @@ async function checkUserName(_userName, _password){
     }
     else if(res === "DNE"){
         console.log("User name or password is incorrect");
-        return res;
+        return false;
     }else {
         // console.log(res);
     }
@@ -76,6 +76,15 @@ async function checkUserName(_userName, _password){
 
 }
 
+async function getUserInfo(_userName){
+    let firstName = await getUserData(_userName, "FIRST_NAME");
+    let pos = await getUserData(_userName, "POSITION");
+    return {
+        firstName: await firstName,
+        position: await pos
+    };
+}
+
 function disconnect(){
     default_dbCon.end();
 }
@@ -85,6 +94,7 @@ function disconnect(){
 export {
     connect as ex_connect,
     checkUserName as ex_checkUserName,
+    getUserInfo as ex_getUserInfo,
     setUserPassword as ex_setUserPassword,
     disconnect as ex_disconnect
 }

@@ -6,6 +6,7 @@ import {ex_startHttpServer} from "./server/server.mjs";
 import {ex_startRestServer} from "./server/server.mjs";
 
 let configFile = process.argv[2] || "config/config.json";
+global.devNoServer = process.argv[3] === "--no_db";
 
 console.log("INFO: Loading Config File");
 

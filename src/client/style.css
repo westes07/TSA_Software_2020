@@ -1,10 +1,27 @@
+@keyframes sign_in {
+    0% {
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+    }
+    100%{
+        left:-100%;
+    }
+}
+/*
+----------------------------------------GLOBALS-SCREEN--------------------------------------------
+*/
 * {
     margin: 0;
     padding: 0;
     font-family: 'Open Sans', sans-serif;
     color: #2d2d2d;
 }
-
+h1 {
+    font-family: 'Roboto Slab', serif;
+}
 
 /*
 ----------------------------------------SIGNIN-SCREEN--------------------------------------------
@@ -33,8 +50,27 @@
     left:clac(50% - 125px);
     top: clac(25% - 150px);
     top:-webkit-calc(25% - 150px);
-    top: -moz-clac(25% - 150px);
+    top:-moz-clac(25% - 150px);
 
+
+}
+
+#sign_in_post_message {
+    position: absolute;
+    display: block;
+    text-align: left;
+    margin-left: 6px;
+    top: 25%;
+}
+
+#sign_in_screen.signed_in {
+    animation: ease-in-out;
+    animation-delay: 250ms;
+    animation-duration: 1s;
+    animation-name: sign_in;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-direction: normal;
 
 }
 /*
