@@ -6,8 +6,11 @@
         height: 100%;
         left: 0;
     }
-    100%{
+    99%{
         left:-100%;
+    }
+    100% {
+        display: none;
     }
 }
 /*
@@ -24,6 +27,43 @@ h1 {
 }
 
 /*
+----------------------------------------TEXT-BOXES--------------------------------------------
+*/
+.app_text_box {
+    all: unset;
+    display: block;
+    background-color: #fff;
+    text-align: left;
+    position: relative;
+    padding: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    height: 25px;
+
+}
+.text_box_fill{
+    width: calc(100% - 10px);
+}
+/*
+----------------------------------------BUTTONS------------------------------------------------
+*/
+
+
+.app_button {
+    display: block;
+    width: 150px;
+    height: 25px;
+    margin-left: auto;
+    margin-right: auto;
+    transition: 150ms;
+}
+.app_button:hover {
+    background-color: #108de6;
+    color: #ededed;
+    box-shadow:2px 3px 9px -5px #2d2d2d;
+}
+
+/*
 ----------------------------------------SIGNIN-SCREEN--------------------------------------------
 */
 #sign_in_screen {
@@ -32,7 +72,7 @@ h1 {
     width: 100%;
     height: 100%;
     z-index: 5;
-    
+
 
 }
 
@@ -74,39 +114,28 @@ h1 {
 
 }
 /*
-----------------------------------------TEXT-BOXES--------------------------------------------
+----------------------------------------MAIN-WINDOW--------------------------------------------
 */
-.app_text_box {
-    all: unset;
+#main_body {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 1;
+    background-color: #ededed;
+}
+
+#side_bar {
     display: block;
-    background-color: #fff;
-    text-align: left;
-    position: relative;
-    padding: 5px;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    height: 25px;
+    position: absolute;
+    width: 300px;
+    background-color: #e6592e;
+    height: calc(100% - 100px);
+}
+#nav_bar {
+    width: 100%;
+    height: 100px;
+    background-color: #e6592e;
 
 }
-.text_box_fill{
-    width: calc(100% - 10px);
-}
 
 
-/*
-----------------------------------------BUTTONS------------------------------------------------
-*/
-.app_button {
-    display: block;
-    width: 150px;
-    height: 25px;
-    margin-left: auto;
-    margin-right: auto;
-    transition: 150ms;
-}
-
-.app_button:hover {
-    background-color: #108de6;
-    color: #ededed;
-    box-shadow:2px 3px 9px -5px #2d2d2d;
-}
