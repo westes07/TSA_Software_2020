@@ -2,9 +2,11 @@ import { createRequire } from 'module'
 const require = createRequire(import.meta.url);
 const fs = require("fs");
 const path = require("path")
-import {ex_startServer} from "./server/http/server.mjs";
+import {ex_startHttpServer} from "./server/server.mjs";
+import {ex_startRestServer} from "./server/server.mjs";
 
 let configFile = process.argv[2] || "config/config.json";
+global.devNoServer = process.argv[3] === "--no_db";
 
 console.log("INFO: Loading Config File");
 
@@ -20,6 +22,6 @@ let parsedConfig = JSON.parse(fs.readFileSync(configFile, null));
 
 
 
-
-ex_startServer("src");
+ex_startRestServer(parsedConfig.rest);
+ex_startHttpServer("src/client");
 

@@ -1,10 +1,18 @@
 import { createRequire } from 'module'
 const require = createRequire(import.meta.url);
+import functionMap from "./rest/functionMap.mjs"
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const express = require("express");
 const http = require("http");
 const url = require("url");
 const fs = require("fs");
 const path = require("path");
 const port = 8080;
+
+const app = express();
+app.use(bodyParser.json());
+app.use(cors());
 
 // Changes the file extensions to HTML recognisable content types
 const mimeMap = {
@@ -26,7 +34,7 @@ const mimeMap = {
     '.ttf': 'application/x-font-ttf'
 };
 
-function startServer(contentRoot) {
+function startHttpServer(contentRoot) {
     http.createServer(function(req,res){
         const reqUrl = url.parse(req.url);
         const sanitisedUrl = path.normalize(reqUrl.pathname).replace(/^(\.\.[\/\\])+/, '');
@@ -34,7 +42,7 @@ function startServer(contentRoot) {
 
         //check if file exists
         if(!fs.existsSync(urlPath)){
-            console.log("ERROR: file {} does not exist", urlPath);
+            console.log("ERROR: file %s does not exist", urlPath );
             //todo add 404 path
             return;
         }
@@ -48,7 +56,7 @@ function startServer(contentRoot) {
             if(err){
                 res.statusCode = 500;
                 //todo add 500 path
-                res.end("ERROR: ${err} occured while getting files");
+                res.end("ERROR: %s occured while getting files", err);
             }
             else{
                 const ext = path.parse(urlPath).ext;
@@ -58,9 +66,33 @@ function startServer(contentRoot) {
         })
 
 
+
+
     }).listen(port);
     console.log("INFO: Server is serving files from ", contentRoot, " on port ", port);
 
+    
+
 }
 
-export {startServer as ex_startServer};
+
+
+function startRestServer(configJSON){
+    for(let i = 0; i < configJSON.get_num; i++){
+        app.get(configJSON.get_data[i].command, functionMap.get(configJSON.get_data[i].function_id));
+    }
+
+    for(let i = 0; i < configJSON.post_num; i++){
+        app.post(configJSON.post_data[i].command, functionMap.get(configJSON.post_data[i].function_id));
+    }
+
+    var server = app.listen(8081, function () {
+        let host = server.address().address;
+        let port = server.address().port;
+        console.log("Rest Server is now listenting");
+    });
+    
+}
+
+export {startHttpServer as ex_startHttpServer};
+export {startRestServer as ex_startRestServer};
