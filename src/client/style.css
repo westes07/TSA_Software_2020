@@ -8,8 +8,10 @@
     }
     99%{
         left:-100%;
+        display: block;
     }
     100% {
+        left:-100%;
         display: none;
     }
 }
@@ -49,7 +51,7 @@ h1 {
 */
 
 
-.app_button {
+.app_button_solid {
     display: block;
     width: 150px;
     height: 25px;
@@ -57,7 +59,7 @@ h1 {
     margin-right: auto;
     transition: 150ms;
 }
-.app_button:hover {
+.app_button_solid:hover {
     background-color: #108de6;
     color: #ededed;
     box-shadow:2px 3px 9px -5px #2d2d2d;
@@ -128,14 +130,49 @@ h1 {
     display: block;
     position: absolute;
     width: 300px;
-    background-color: #e6592e;
-    height: calc(100% - 100px);
+    background-color: #ededed;
+    border: #e6592e 4px solid;
+    border-top: none;
+    height: calc(100% - 104px);
+    z-index: 2;
 }
 #nav_bar {
-    width: 100%;
-    height: 100px;
-    background-color: #e6592e;
+    box-shadow: 1px 1px 15px -5px #333333;
+    width: calc(100% - 8px);
+    height: 92px;
+    border: #e6592e 4px solid;
+    background-color: #ededed;
+    z-index: 2;
+}
 
+#nav_userInfo{
+    display: block;
+    float: right;
+    margin-top: 5px;
+    margin-right: 15px;
+}
+
+#userInfo_firstName{
+    display: block;
+    position: relative;
+    font-family: 'Roboto Slab Black', sans-serif;
+    font-size: 28pt;
+    text-transform: uppercase;
+}
+#userInfo_position {
+    text-align: center;
+    margin-top: -5px;
+    color: #e6592e;
+}
+#nav_companyName {
+    display: block;
+    float: left;
+    height: 100%;
+    margin-left: 15px;
+    margin-top: 5px;
+    font-family: 'Roboto Slab Black', sans-serif;
+    font-size: 40pt;
+    text-transform: uppercase;
 }
 
 
