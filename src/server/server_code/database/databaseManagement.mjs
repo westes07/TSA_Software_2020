@@ -38,6 +38,15 @@ async function getUserData(_userName, _field) {
 
 }
 
+async function getUserRules(_userName){
+    let query = "SELECT overview_allowed, time_clock_allowed FROM users.user_rules WHERE ACCOUNT_NAME=?";
+    const [row, field] = await default_dbCon.promise().query(query, [_userName]);
+    if(await row.length === 0){
+        return("DNE");
+    }
+    return row[0];
+}
+
 function setUserData(_userName, _field, _data) {
     let query = "UPDATE users.user_data SET " + _field + "=? WHERE ACCOUNT_NAME=?";
     default_dbCon.query(query, [_data, _userName], function (err, res, fields){
@@ -95,6 +104,7 @@ export {
     connect as ex_connect,
     checkUserName as ex_checkUserName,
     getUserInfo as ex_getUserInfo,
+    getUserRules as ex_getUserRules,
     setUserPassword as ex_setUserPassword,
     disconnect as ex_disconnect
 }

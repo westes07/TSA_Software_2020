@@ -12,18 +12,24 @@ async function auth_manager(req, res) {
         return;
     }
     const data = req.body;
-    let result = {}
+    let result = {
+        rules:{
+            allowedPages:{}
+        }
+    }
 
     db.ex_connect("127.0.0.1", "db_user_auth", "")
+    //todo add error cases
     if (await db.ex_checkUserName(data.userName, data.password)){
         result.authSuccessful = true;
         result.status = "pending";
-        let dbRes = await db.ex_getUserInfo(data.userName);
+        const dbRes = await db.ex_getUserInfo(data.userName);
         result.position = dbRes.position;
         result.firstName = dbRes.firstName;
         if(result.position === "Developer"){
             result.developer = true;
         }
+        result.rules.allowedPages = await db.ex_getUserRules(data.userName);
         result.status = "valid";
         console.log(result);
         res.send(result);
