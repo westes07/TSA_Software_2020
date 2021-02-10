@@ -1,10 +1,14 @@
 {
   "rest":{
-    "post_num": 1,
+    "post_num": 2,
     "post_data": [
       {
         "command": "/auth/manager",
         "function_id":"auth_manager_func"
+      },
+      {
+        "command": "/timeclock/punch",
+        "function_id": "timeclock_punch_func"
       }
     ]
 
