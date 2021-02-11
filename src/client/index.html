@@ -19,7 +19,7 @@
                     </h7>
                     <input id="userName" placeholder="Username" class="app_text_box text_box_fill" type="text">
                     <input id="password" placeholder="Password" class="app_text_box text_box_fill" type="password">
-                    <div id="submit" class="app_button_solid">Sign In</div>
+                    <div id="submit" class="app_button_solid app_button_center">Sign In</div>
                 </div>
                 <div id="sign_in_post_message" style="display: none">
                     <h1>
@@ -44,10 +44,26 @@
 
         </div>
         <div id="side_bar">
+            <div id="side_dashBoard_button" class="app_button_frame feature_disabled">Dashboard</div>
             <div id="side_timeClock_button" class="app_button_frame feature_disabled">Time Clock</div>
             <div id="side_employeeManager_button" class="app_button_frame feature_disabled">Employee Records</div>
+        </div>
+        <div id="main_dashBoard_body" class="feature_disabled">
 
         </div>
+        <div id="main_timeClock_body" class="feature_disabled">
+            <h2 id="tc_currentTime">
+                10:04:02
+            </h2>
+            <div id="tc_shiftStart_button" class="app_button_solid">Start Shift</div>
+            <div id="tc_shiftEnd_button" class="app_button_solid">End Shift</div>
+            <div id="tc_lunchStart_button" class="app_button_solid">Start Lunch</div>
+            <div id="tc_lunchEnd_button" class="app_button_solid">End Lunch</div>
+
+            <div id="tc_punchLog"></div>
+
+        </div>
+
     </div>
 
 

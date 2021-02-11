@@ -45,9 +45,6 @@ function signIn(_resJSON){
         document.getElementById("sign_in_message").style.color = "red";
         document.getElementById("sign_in_message").innerText = "unable to authenticate user";
     }
-
-
-
 }
 
 

@@ -28,6 +28,11 @@ h1 {
     font-family: 'Roboto Slab', serif;
 }
 
+.feature_disabled {
+    display: none !important;
+}
+
+
 /*
 ----------------------------------------TEXT-BOXES--------------------------------------------
 */
@@ -55,14 +60,50 @@ h1 {
     display: block;
     width: 150px;
     height: 25px;
-    margin-left: auto;
-    margin-right: auto;
+
     transition: 150ms;
 }
 .app_button_solid:hover {
     background-color: #108de6;
     color: #ededed;
     box-shadow: 1px 1px 15px -5px #333333;
+}
+
+.app_button_center {
+    margin-left: auto;
+    margin-right: auto;
+}
+.app_button_frame {
+    display: block;
+    font-family: 'Roboto Slab', serif;
+    font-size: 16pt;
+    padding-left: 10px;
+    width: 290px;
+    border-right: #e6592e 4px solid;
+    height: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    transition: 150ms;
+}
+
+.app_button_frame:hover {
+    background-color: #108de6;
+    border-right: #108de6 4px solid;
+    color: #ededed;
+    box-shadow: 1px 1px 15px -5px #333333;
+
+}
+
+.app_button_frame.button_active {
+    border-right: #108de6 4px solid;
+    box-shadow: 1px 1px 15px -5px #333333;
+    color: #108de6;
+}
+.app_button_frame.button_active:hover {
+    background-color: #ededed;
+    border-right: #108de6 4px solid;
+    box-shadow: 1px 1px 15px -5px #333333;
+    color: #108de6;
 }
 
 /*
@@ -176,40 +217,5 @@ h1 {
 }
 
 
-/*
-----------------------------------------------------------BUTTONS----------------------------
-*/
 
-.app_button_frame {
-    display: block;
-    font-family: 'Roboto Slab', serif;
-    font-size: 16pt;
-    padding-left: 10px;
-    width: 290px;
-    border-right: #e6592e 4px solid;
-    height: 30px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    transition: 150ms;
-}
-
-.app_button_frame:hover {
-    background-color: #108de6;
-    border-right: #108de6 4px solid;
-    color: #ededed;
-    box-shadow: 1px 1px 15px -5px #333333;
-
-}
-
-.app_button_frame.button_active {
-    border-right: #108de6 4px solid;
-    box-shadow: 1px 1px 15px -5px #333333;
-    color: #108de6;
-}
-.app_button_frame.button_active:hover {
-    background-color: #ededed;
-    border-right: #108de6 4px solid;
-    box-shadow: 1px 1px 15px -5px #333333;
-    color: #108de6;
-}
 

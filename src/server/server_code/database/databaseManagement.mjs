@@ -39,7 +39,7 @@ async function getUserData(_userName, _field) {
 }
 
 async function getUserRules(_userName){
-    let query = "SELECT overview_allowed, time_clock_allowed FROM users.user_rules WHERE ACCOUNT_NAME=?";
+    let query = "SELECT overview_allowed, time_clock_allowed, employee_manager_allowed FROM users.user_rules WHERE ACCOUNT_NAME=?";
     const [row, field] = await default_dbCon.promise().query(query, [_userName]);
     if(await row.length === 0){
         return("DNE");
