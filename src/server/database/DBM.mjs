@@ -4,7 +4,6 @@ const require = createRequire(import.meta.url);
 const mysql = require("mysql2");
 const util = require("util");
 const fs = require("fs");
-//todo: rework this file to read db config from a file
 
 
 
@@ -19,12 +18,12 @@ function initDB(_dbInfo){
         database:"users"
     });
 
-    // emp_dbCon = mysql.createConnection({
-    //     host: _dbInfo.address,
-    //     user: _dbInfo.emp.userName,
-    //     password: _dbInfo.emp.password,
-    //     database:"emp"
-    // });
+    emp_dbCon = mysql.createConnection({
+        host: _dbInfo.address,
+        user: _dbInfo.emp.userName,
+        password: _dbInfo.emp.password,
+        database:"emp"
+    });
 }
 
 function connect(_dbCon){

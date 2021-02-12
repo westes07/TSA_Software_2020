@@ -5,6 +5,7 @@ const fs = require("fs");
 
 
 async function auth_manager(req, res) {
+    //todo move this to a the DBM API
     if(global.devNoServer) {
         res.send(JSON.parse(
             fs.readFileSync("config/no_db_auth_file.json", null)

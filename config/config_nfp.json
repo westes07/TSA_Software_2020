@@ -18,8 +18,8 @@
   "database": {
     "address": "127.0.0.1",
     "emp": {
-      "userName": "",
-      "password": ""
+      "userName": "db_user_emp",
+      "password": "password1234"
     },
     "user": {
       "userName": "db_user_auth",
