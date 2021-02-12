@@ -16,9 +16,15 @@
 
 
   "database": {
-    "ipAddress": "127.0.0.1",
-    "username": "db_payroll_admin",
-    "password": "MasterLego!34"
+    "address": "127.0.0.1",
+    "emp": {
+      "userName": "",
+      "password": ""
+    },
+    "user": {
+      "userName": "db_user_auth",
+      "password": "password1234"
+    }
   },
   "defaultUser": "root"
 }

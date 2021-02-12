@@ -8,7 +8,7 @@ const http = require("http");
 const url = require("url");
 const fs = require("fs");
 const path = require("path");
-const port = 8080;
+const port = process.env.PORT || 8080;
 
 const app = express();
 app.use(bodyParser.json());
@@ -68,7 +68,7 @@ function startHttpServer(contentRoot) {
 
 
 
-    }).listen(port);
+    }).listen( port);
     console.log("INFO: Server is serving files from ", contentRoot, " on port ", port);
 
     

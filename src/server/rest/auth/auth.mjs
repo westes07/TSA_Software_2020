@@ -1,4 +1,4 @@
-import * as db from "../../server_code/database/databaseManagement.mjs"
+import {db_checkUserName, db_getUserInfo, db_getUserRules} from "../../database/DBM_api.mjs";
 import { createRequire } from 'module'
 const require = createRequire(import.meta.url);
 const fs = require("fs");
@@ -18,18 +18,17 @@ async function auth_manager(req, res) {
         }
     }
 
-    db.ex_connect("127.0.0.1", "db_user_auth", "")
     //todo add error cases
-    if (await db.ex_checkUserName(data.userName, data.password)){
+    if (await db_checkUserName(data.userName, data.password)){
         result.authSuccessful = true;
         result.status = "pending";
-        const dbRes = await db.ex_getUserInfo(data.userName);
-        result.position = dbRes.position;
-        result.firstName = dbRes.firstName;
+        const dbRes = await db_getUserInfo(data.userName);
+        result.position = dbRes.POSITION;
+        result.firstName = dbRes.FIRST_NAME;
         if(result.position === "Developer"){
             result.developer = true;
         }
-        result.rules.allowedPages = await db.ex_getUserRules(data.userName);
+        result.rules.allowedPages = await db_getUserRules(data.userName);
         result.status = "valid";
         console.log(result);
         res.send(result);
@@ -38,8 +37,6 @@ async function auth_manager(req, res) {
         res.send({authSuccessful: false});
 
     }
-    db.ex_disconnect();
-
 }
 
 
