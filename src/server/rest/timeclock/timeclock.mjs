@@ -1,8 +1,21 @@
 
 
 
-function timeclock_punch(req, res) {
+async function timeclock_punch(req, res) {
+    const data = req.body;
+    console.log(data);
 
+    if(global.devNoServer){
+        let result = {
+            status: "No DB connection",
+            punches: [{
+                punch: Date(data.punchTime),
+                punchType: data.punchType
+            }]
+        }
+
+        res.send(result);
+    }
 }
 
 function timeclock_overrideEmployee(req, res){

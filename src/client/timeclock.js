@@ -1,5 +1,4 @@
-function startShift(e){
-    e.preventDefault();
+function punch(_action){
     const empID = document.getElementById("tc_employee_id").value;
     fetch("http://localhost:8081/timeclock/punch", {
         method: "POST",
@@ -9,80 +8,16 @@ function startShift(e){
         },
         body: JSON.stringify({
             empID:empID,
-            punchType: "shiftIn",
-            punchIn: new Date().getTime(),
+            punchType: _action,
+            punchTime: Date.now(),
         })
     }).then(res => res.json())
-        .then(data => {
-            logPunch(data)
-        })
+        .then(data => {logPunch(data)})
         .catch(err => console.log(err));
 }
 
-function endShift(e){
-    e.preventDefault();
-    const empID = document.getElementById("tc_employee_id").value;
-    fetch("http://localhost:8081/timeclock/punch", {
-        method: "POST",
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            empID: empID,
-            punchType: "shiftOut",
-            punchOut: new Date().getTime(),
-        })
-    }).then(res => res.json())
-        .then(data => {
-            logPunch(data)
-        })
-        .catch(err => console.log(err));
-}
-
-function startLunch(e){
-    e.preventDefault();
-    const empID = document.getElementById("tc_employee_id").value;
-    fetch("http://localhost:8081/timeclock/punch", {
-        method: "POST",
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            empID: empID,
-            punchType: "lunchOut",
-            punchOut: new Date().getTime(),
-        })
-    }).then(res => res.json())
-        .then(data => {
-            logPunch(data)
-        })
-        .catch(err => console.log(err));
-}
-
-function endLunch(e){
-    e.preventDefault();
-    const empID = document.getElementById("tc_employee_id").value;
-    fetch("http://localhost:8081/timeclock/punch", {
-        method: "POST",
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            empID:empID,
-            punchType: "lunchIn",
-            punchIn: new Date().getTime(),
-        })
-    }).then(res => res.json())
-        .then(data => {
-            logPunch(data)
-        })
-        .catch(err => console.log(err));
-
-}
 function logPunch(_data){
+    console.log(_data);
 
 }
 
@@ -113,10 +48,10 @@ function currentTime(){
 currentTime();
 
 function linkToDom(){
-    document.getElementById("tc_shiftStart_button").addEventListener("click", startShift);
-    document.getElementById("tc_shiftEnd_button").addEventListener("click", endShift);
-    document.getElementById("tc_lunchStart_button").addEventListener("click", startLunch);
-    document.getElementById("tc_lunchEnd_button").addEventListener("click", endLunch);
+    document.getElementById("tc_shiftStart_button").addEventListener("click", e => {e.preventDefault(); punch("shiftStart")});
+    document.getElementById("tc_shiftEnd_button").addEventListener("click", e => {e.preventDefault(); punch("shiftEnd")});
+    document.getElementById("tc_lunchStart_button").addEventListener("click", e => {e.preventDefault(); punch("lunchStart")});
+    document.getElementById("tc_lunchEnd_button").addEventListener("click", e => {e.preventDefault(); punch("lunchEnd")});
 
 }
 

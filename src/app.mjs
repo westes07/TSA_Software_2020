@@ -23,8 +23,15 @@ const parsedConfig = JSON.parse(fs.readFileSync(configFile, null));
 
 
 
-if(!global.devNoServer)
-    DBM_initDB(parsedConfig.database);
+
+try{
+    if(!global.devNoServer)
+        DBM_initDB(parsedConfig.database);
+} catch (err){
+    console.error(err);
+}
+
+
 ex_startRestServer(parsedConfig.rest);
 ex_startHttpServer("src/client");
 
