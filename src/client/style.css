@@ -31,7 +31,9 @@ h1 {
 .feature_disabled {
     display: none !important;
 }
-
+.app_hidden {
+    display: none !important;
+}
 
 /*
 ----------------------------------------TEXT-BOXES--------------------------------------------
@@ -106,6 +108,12 @@ h1 {
     color: #108de6;
 }
 
+.tc_button {
+    position: absolute;
+    font-size: 18pt;
+    padding: 5px 15px 15px 15px;
+}
+
 /*
 ----------------------------------------SIGNIN-SCREEN--------------------------------------------
 */
@@ -126,14 +134,9 @@ h1 {
     text-align: center;
     width: 250px;
     height: 300px;
+    left:calc(50% - 125px);
+    top: calc(25% - 150px);
 
-
-    left:-webkit-calc(50% - 125px);
-    left:-moz-calc(50% - 125px);
-    left:clac(50% - 125px);
-    top: clac(25% - 150px);
-    top:-webkit-calc(25% - 150px);
-    top:-moz-clac(25% - 150px);
 
 
 }
@@ -216,6 +219,58 @@ h1 {
     text-transform: uppercase;
 }
 
-
-
+.app_body {
+    display: block;
+    position: absolute;
+    height: calc(100% - 100px);
+    width: calc(100% - 308px);
+    left: 308px;
+}
+/*
+----------------------------------------TIME-CLOCK-WINDOW--------------------------------------------
+*/
+#timeClock_content {
+    display: block;
+    position: absolute;
+    width: 750px;
+    height: 350px;
+    left: calc(35% - 250px);
+    top: calc(35% - 250px)
+}
+#tc_currentTime {
+    font-size: 75pt;
+}
+#tc_punchLog{
+    display: block;
+    position: absolute;
+    height: calc(100% - 6px);
+    width: 300px;
+    background-color: #fff;
+    border: #e6592e 3px solid;
+    right: 0;
+    top: 0;
+}
+#tc_buttonContainer{
+    display: block;
+    position: absolute;
+    width: 400px;
+    height: 100px;
+    bottom: 0;
+}
+#tc_shiftStart_button{
+    top: 0;
+    left: 0;
+}
+#tc_shiftEnd_button {
+    top: 0;
+    right: 0;
+}
+#tc_lunchStart_button{
+    bottom: 0;
+    left: 0;
+}
+#tc_lunchEnd_button{
+    bottom: 0;
+    right: 0;
+}
 

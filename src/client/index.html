@@ -48,20 +48,31 @@
             <div id="side_timeClock_button" class="app_button_frame feature_disabled">Time Clock</div>
             <div id="side_employeeManager_button" class="app_button_frame feature_disabled">Employee Records</div>
         </div>
-        <div id="main_dashBoard_body" class="feature_disabled">
+        <div id="main_content">
+            <div id="main_dashBoard_body" class="app_body app_hidden feature_disabled">
 
-        </div>
-        <div id="main_timeClock_body" class="feature_disabled">
-            <h2 id="tc_currentTime">
-                10:04:02
-            </h2>
-            <div id="tc_shiftStart_button" class="app_button_solid">Start Shift</div>
-            <div id="tc_shiftEnd_button" class="app_button_solid">End Shift</div>
-            <div id="tc_lunchStart_button" class="app_button_solid">Start Lunch</div>
-            <div id="tc_lunchEnd_button" class="app_button_solid">End Lunch</div>
+            </div>
+            <div id="main_timeClock_body" class="app_body app_hidden feature_disabled">
+                <div id="timeClock_content">
+                    <div id="tc_currentDateTime">
+                        <h2 id="tc_currentTime">
 
-            <div id="tc_punchLog"></div>
+                        </h2>
+                        <p id="tc_currentDate">
 
+                        </p>
+                    </div>
+                    <div id="tc_buttonContainer">
+                        <div id="tc_shiftStart_button" class="app_button_solid tc_button">Start Shift</div>
+                        <div id="tc_shiftEnd_button" class="app_button_solid tc_button">End Shift</div>
+                        <div id="tc_lunchStart_button" class="app_button_solid tc_button">Start Lunch</div>
+                        <div id="tc_lunchEnd_button" class="app_button_solid tc_button">End Lunch</div>
+                    </div>
+
+                    <div id="tc_punchLog"></div>
+                </div>
+
+            </div>
         </div>
 
     </div>
