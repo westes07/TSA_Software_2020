@@ -1,4 +1,4 @@
-
+import {db_updateTimesheet} from "../../database/DBM_api.mjs";
 
 
 async function timeclock_punch(req, res) {
@@ -15,7 +15,11 @@ async function timeclock_punch(req, res) {
         }
 
         res.send(result);
+        return;
     }
+    const result = await db_updateTimesheet(data.punchTime, data.punchType, data.empID);
+    res.send(result);
+
 }
 
 function timeclock_overrideEmployee(req, res){

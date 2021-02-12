@@ -27,7 +27,7 @@ function punch(_action){
 
 function logPunch(_data){
     console.log(_data);
-    if(_data.status !== "valid") {
+    if(_data.status !== "VALID") {
         document.getElementById("tc_statusBox").innerHTML = _data.status;
         document.getElementById("tc_statusBox").style.color = "#ff0000";
         setTimeout(() => {
@@ -81,9 +81,7 @@ function currentTime(){
     }
     const cur = new Date();
     //this gets the current time and formats it as hh:mm:ss
-    const time = getHoursMinues(cur);
-
-    document.getElementById("tc_currentTime").innerText = time;
+    document.getElementById("tc_currentTime").innerText = getHoursMinues(cur);
 
     setTimeout(currentTime, 1000);
 
