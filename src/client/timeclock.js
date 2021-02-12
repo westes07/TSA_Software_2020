@@ -1,5 +1,14 @@
 function punch(_action){
     const empID = document.getElementById("tc_employee_id").value;
+    if(empID.length === 0){
+        document.getElementById("tc_statusBox").innerHTML = "Your Employee ID is required";
+        document.getElementById("tc_statusBox").style.color = "#ff0000";
+        setTimeout(() => {
+            document.getElementById("tc_statusBox").innerHTML = "Enter your Employee ID and press the relevant punch";
+            document.getElementById("tc_statusBox").style.color = "";
+        }, 2500);
+        return;
+    }
     fetch("http://localhost:8081/timeclock/punch", {
         method: "POST",
         headers: {
@@ -18,7 +27,47 @@ function punch(_action){
 
 function logPunch(_data){
     console.log(_data);
+    if(_data.status !== "valid") {
+        document.getElementById("tc_statusBox").innerHTML = _data.status;
+        document.getElementById("tc_statusBox").style.color = "#ff0000";
+        setTimeout(() => {
+            document.getElementById("tc_statusBox").innerHTML = "Enter your Employee ID and press the relevant punch";
+            document.getElementById("tc_statusBox").style.color = "";
+        }, 2500);
+    }
 
+    let punchLog = document.getElementById("tc_punchLog");
+    punchLog.innerHTML = "";
+
+    for(let i = 0; i < _data.punches.length; i++){
+        let newEntry = document.createElement("div");
+        newEntry.classList.add("tc_punchLog_element");
+        newEntry.innerHTML = formatPunchType(_data.punches[i].punchType) + " " + getHoursMinues(new Date(_data.punches[i].punch));
+        if(i%2 === 0){
+            newEntry.style.backgroundColor = "#ededed";
+        }
+        punchLog.appendChild(newEntry);
+    }
+
+}
+
+function getHoursMinues(_time){
+    let hours = _time.getHours().toString();
+    hours = hours.length === 1 ? 0+hours : hours;
+    let minutes = _time.getMinutes().toString();
+    minutes = minutes.length === 1 ? 0+minutes : minutes;
+    let secs = _time.getSeconds().toString();
+    secs = secs.length === 1 ? 0+secs : secs;
+    return hours + ':' + minutes + ':' + secs;
+}
+
+function formatPunchType(_punchTye){
+    switch(_punchTye){
+        case "shiftStart": return "Shift Started at ";
+        case "shiftEnd"  : return "Shift Ended at ";
+        case "lunchStart": return "Lunch Started at ";
+        case "lunchEnd"  : return "Lunch Ended at ";
+    }
 }
 
 
@@ -32,13 +81,7 @@ function currentTime(){
     }
     const cur = new Date();
     //this gets the current time and formats it as hh:mm:ss
-    let hours = cur.getHours().toString();
-    hours = hours.length === 1 ? 0+hours : hours;
-    let minutes = cur.getMinutes().toString();
-    minutes = minutes.length === 1 ? 0+minutes : minutes;
-    let secs = cur.getSeconds().toString();
-    secs = secs.length === 1 ? 0+secs : secs;
-    const time = hours + ':' + minutes + ':' + secs;
+    const time = getHoursMinues(cur);
 
     document.getElementById("tc_currentTime").innerText = time;
 

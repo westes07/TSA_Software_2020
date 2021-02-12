@@ -7,7 +7,7 @@ async function timeclock_punch(req, res) {
 
     if(global.devNoServer){
         let result = {
-            status: "No DB connection",
+            status: "No DB connection, Punches are not logged",
             punches: [{
                 punch: Date(data.punchTime),
                 punchType: data.punchType

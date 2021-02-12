@@ -285,3 +285,8 @@ h1 {
     right: 0;
 }
 
+.tc_punchLog_element{
+    padding: 5px;
+    font-size: 15pt;
+}
+
