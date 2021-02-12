@@ -1,7 +1,7 @@
 
 
 
-function timeclock_punch(req, res){
+function timeclock_punch(req, res) {
 
 }
 

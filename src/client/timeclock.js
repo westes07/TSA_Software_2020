@@ -1,18 +1,91 @@
 function startShift(e){
-
+    e.preventDefault();
+    const empID = document.getElementById("tc_employee_id").value;
+    fetch("http://localhost:8081/timeclock/punch", {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            empID:empID,
+            punchType: "shiftIn",
+            punchIn: new Date().getTime(),
+        })
+    }).then(res => res.json())
+        .then(data => {
+            logPunch(data)
+        })
+        .catch(err => console.log(err));
 }
 
 function endShift(e){
-
+    e.preventDefault();
+    const empID = document.getElementById("tc_employee_id").value;
+    fetch("http://localhost:8081/timeclock/punch", {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            empID: empID,
+            punchType: "shiftOut",
+            punchOut: new Date().getTime(),
+        })
+    }).then(res => res.json())
+        .then(data => {
+            logPunch(data)
+        })
+        .catch(err => console.log(err));
 }
 
 function startLunch(e){
-
+    e.preventDefault();
+    const empID = document.getElementById("tc_employee_id").value;
+    fetch("http://localhost:8081/timeclock/punch", {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            empID: empID,
+            punchType: "lunchOut",
+            punchOut: new Date().getTime(),
+        })
+    }).then(res => res.json())
+        .then(data => {
+            logPunch(data)
+        })
+        .catch(err => console.log(err));
 }
 
 function endLunch(e){
+    e.preventDefault();
+    const empID = document.getElementById("tc_employee_id").value;
+    fetch("http://localhost:8081/timeclock/punch", {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            empID:empID,
+            punchType: "lunchIn",
+            punchIn: new Date().getTime(),
+        })
+    }).then(res => res.json())
+        .then(data => {
+            logPunch(data)
+        })
+        .catch(err => console.log(err));
 
 }
+function logPunch(_data){
+
+}
+
 
 function currentTime(){
     if(document.getElementById("main_timeClock_body").classList.contains("app_hidden")){
