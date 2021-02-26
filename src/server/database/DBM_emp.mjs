@@ -1,18 +1,34 @@
-import {DBM_updateData, DBM_setData, DBM_getData,emp_dbCon} from "./DBM.mjs";
+import {DBM_getDataArray, DBM_setData, DBM_getData, emp_dbCon} from "./DBM.mjs";
 
 
-async function checkIfTimesheetExists(_empId){
+async function getCurrentPunches(_empId){
     let query = "SELECT * FROM emp.time_sheet WHERE EMP_ID=" + _empId;
-    return await DBM_getData(emp_dbCon, query) !== "DNE";
+    const res = JSON.parse(JSON.stringify(await DBM_getDataArray(emp_dbCon, query)));
+    if (await res === "DNE")
+        return false;
+    let formatted = {
+        status: "",
+        punches: []
+    }
+    for(let i = 0; i < (await res).length; i++){
+        formatted.punches[i] = {
+            punch: (await res[i]).PUNCH_TIME,
+            punchType: (await res[i]).PUNCH_TYPE
+        }
+    }
+    if(await formatted.punches[formatted.punches.length-1].punchType === "shiftStart" ||
+        await formatted.punches[formatted.punches.length-1].punchType === "lunchEnd"){
+        formatted.status = "clockedIn";
+    } else {
+        formatted.status = "clockedOut";
+    }
+    return formatted;
 }
 
 function createTimesheetEntry(_punchTime, _punchType, _empId){
-    const cur = new Date();
-    let date = cur.getFullYear().toString() + "-" + cur.getMonth().toString() + "-" + cur.getDay().toString();
-    let json = {punches: [{punch: _punchTime, punchType: _punchType}]};
     let query =
-        "INSERT INTO emp.time_sheet(EMP_ID, clock_in, date) " +
-        "VALUES(" + _empId + "," + json + ",\'" +  date + "\');";
+        "INSERT INTO emp.time_sheet(EMP_ID, PUNCH_TIME, PUNCH_TYPE) " +
+        "VALUES(" + _empId + "," + _punchTime + ",\'" +  _punchType + "\');";
 
     DBM_setData(emp_dbCon, query);
 }
@@ -37,6 +53,6 @@ function getTimesheetEntry(_empId){
 
 export {
     checkEmployeeRecord as DBM_checkEmployeeRecord,
-    checkIfTimesheetExists as DBM_checkIfTimesheetExists,
+    getCurrentPunches as DBM_getCurrentPunches,
     createTimesheetEntry as DBM_createTimesheetEntry
 }
