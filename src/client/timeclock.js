@@ -49,6 +49,7 @@ function logPunch(_data){
         }
         punchLog.appendChild(newEntry);
     }
+    punchLog.scrollTop = punchLog.scrollHeight;
 
 }
 
