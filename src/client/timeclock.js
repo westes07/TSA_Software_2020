@@ -25,6 +25,30 @@ function punch(_action){
         .catch(err => console.log(err));
 }
 
+function getCurrentPunches(){
+    const empID = document.getElementById("tc_employee_id").value;
+    if(empID.length === 0){
+        document.getElementById("tc_statusBox").innerHTML = "Your Employee ID is required";
+        document.getElementById("tc_statusBox").style.color = "#ff0000";
+        setTimeout(() => {
+            document.getElementById("tc_statusBox").innerHTML = "Enter your Employee ID and press the relevant punch";
+            document.getElementById("tc_statusBox").style.color = "";
+        }, 2500);
+        return;
+    }
+
+    fetch("http://localhost:8081/timeclock/currentPunches", {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({empID: empID})
+    }).then(res => res.json())
+        .then(data => {logPunch(data)})
+        .catch(err => console.log(err))
+}
+
 function logPunch(_data){
     console.log(_data);
     if(_data.status !== "VALID") {
@@ -44,7 +68,7 @@ function logPunch(_data){
     for(let i = 0; i < _data.punches.length; i++){
         let newEntry = document.createElement("div");
         newEntry.classList.add("tc_punchLog_element");
-        newEntry.innerHTML = formatPunchType(_data.punches[i].punchType) + " " + getHoursMinues(new Date(parseInt(_data.punches[i].punch)));
+        newEntry.innerHTML = formatPunchType(_data.punches[i].punchType) + " " + getHoursMinutes(new Date(parseInt(_data.punches[i].punch)));
         if(i%2 === 0){
             newEntry.style.backgroundColor = "#ededed";
         }
@@ -54,7 +78,8 @@ function logPunch(_data){
 
 }
 
-function getHoursMinues(_time){
+
+function getHoursMinutes(_time){
     let hours = _time.getHours().toString();
     hours = hours.length === 1 ? 0+hours : hours;
     let minutes = _time.getMinutes().toString();
@@ -72,6 +97,9 @@ function formatPunchType(_punchTye){
         case "lunchEnd"  : return "Lunch Ended at ";
     }
 }
+function clear(){
+
+}
 
 
 function currentTime(){
@@ -84,7 +112,7 @@ function currentTime(){
     }
     const cur = new Date();
     //this gets the current time and formats it as hh:mm:ss
-    document.getElementById("tc_currentTime").innerText = getHoursMinues(cur);
+    document.getElementById("tc_currentTime").innerText = getHoursMinutes(cur);
 
     setTimeout(currentTime, 1000);
 
@@ -96,6 +124,7 @@ function linkToDom(){
     document.getElementById("tc_shiftEnd_button").addEventListener("click", e => {e.preventDefault(); punch("shiftEnd")});
     document.getElementById("tc_lunchStart_button").addEventListener("click", e => {e.preventDefault(); punch("lunchStart")});
     document.getElementById("tc_lunchEnd_button").addEventListener("click", e => {e.preventDefault(); punch("lunchEnd")});
+    document.getElementById("tc_getPunchLog_button").addEventListener("click", e => {e.preventDefault(); getCurrentPunches()});
 
 }
 

@@ -10,18 +10,13 @@ async function getCurrentPunches(_empId){
         status: "",
         punches: []
     }
-    for(let i = 0; i < (await res).length; i++){
+    for(let i = 0; i < res.length; i++){
         formatted.punches[i] = {
-            punch: (await res[i]).PUNCH_TIME,
-            punchType: (await res[i]).PUNCH_TYPE
+            punch: res[i].PUNCH_TIME,
+            punchType: res[i].PUNCH_TYPE
         }
     }
-    if(await formatted.punches[formatted.punches.length-1].punchType === "shiftStart" ||
-        await formatted.punches[formatted.punches.length-1].punchType === "lunchEnd"){
-        formatted.status = "clockedIn";
-    } else {
-        formatted.status = "clockedOut";
-    }
+    formatted.status = formatted.punches[formatted.punches.length - 1].punchType;
     return formatted;
 }
 

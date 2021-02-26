@@ -55,17 +55,17 @@ async function updateTimesheet(_punchTime, _punchType, _empId){
 
         DBM_createTimesheetEntry(_punchTime, _punchType, _empId);
     } else {
-        if(prevPunches.status === "clockedOut" && _punchType === "shiftStart"){
+        if(prevPunches.status === "shiftEnd"){
             return {status: "Violation: Employee has clocked out"};
+        } else if(prevPunches.status === "shiftStart" && (_punchType === "shiftEnd" || _punchType === "lunchStart")){
+            DBM_createTimesheetEntry(_punchTime, _punchType, _empId);
+        } else if(prevPunches.status === "lunchEnd" && _punchType === "shiftEnd"){
+            DBM_createTimesheetEntry(_punchTime, _punchType, _empId);
+        } else if(prevPunches.status === "lunchStart" && _punchType === "lunchEnd"){
+            DBM_createTimesheetEntry(_punchTime, _punchType, _empId);
+        } else {
+            return {status: "Violation: Invalid Punch"};
         }
-        else if (prevPunches.status === "clockedIn" && _punchType === "lunchEnd"){
-            return {status: "Violation: Employee has not started lunch"};
-        }
-        else if(prevPunches.status === "clockedOut" && _punchType !== "lunchEnd") {
-            return {status: "Violation: Employee must end lunch"};
-        }
-        DBM_createTimesheetEntry(_punchTime, _punchType, _empId);
-
 
     }
     let curPunches = await DBM_getCurrentPunches(_empId);
@@ -82,6 +82,7 @@ export {
     checkUserName as db_checkUserName,
     DBM_getUserRules as db_getUserRules,
     DBM_getUserInfo as db_getUserInfo,
+    DBM_getCurrentPunches as db_getCurrentPunches,
     updateTimesheet as db_updateTimesheet
 
 }
