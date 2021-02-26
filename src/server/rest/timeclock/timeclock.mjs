@@ -1,4 +1,4 @@
-
+import {db_updateTimesheet} from "../../database/DBM_api.mjs";
 
 
 async function timeclock_punch(req, res) {
@@ -9,13 +9,19 @@ async function timeclock_punch(req, res) {
         let result = {
             status: "No DB connection, Punches are not logged",
             punches: [{
-                punch: Date(data.punchTime),
+                punch: data.punchTime,
                 punchType: data.punchType
             }]
         }
 
         res.send(result);
+        return;
     }
+    const result = await db_updateTimesheet(data.punchTime, data.punchType, data.empID);
+    res.send(result);
+
+
+
 }
 
 function timeclock_overrideEmployee(req, res){
