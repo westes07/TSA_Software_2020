@@ -28,12 +28,14 @@ function punch(_action){
 function logPunch(_data){
     console.log(_data);
     if(_data.status !== "VALID") {
-        document.getElementById("tc_statusBox").innerHTML = _data.status;
+        document.getElementById("tc_statusBox").innerHTML = !_data.status ? "A database error has occurred" : _data.status;
         document.getElementById("tc_statusBox").style.color = "#ff0000";
         setTimeout(() => {
             document.getElementById("tc_statusBox").innerHTML = "Enter your Employee ID and press the relevant punch";
             document.getElementById("tc_statusBox").style.color = "";
         }, 5000);
+
+        return;
     }
 
     let punchLog = document.getElementById("tc_punchLog");
@@ -42,12 +44,13 @@ function logPunch(_data){
     for(let i = 0; i < _data.punches.length; i++){
         let newEntry = document.createElement("div");
         newEntry.classList.add("tc_punchLog_element");
-        newEntry.innerHTML = formatPunchType(_data.punches[i].punchType) + " " + getHoursMinues(new Date(_data.punches[i].punch));
+        newEntry.innerHTML = formatPunchType(_data.punches[i].punchType) + " " + getHoursMinues(new Date(parseInt(_data.punches[i].punch)));
         if(i%2 === 0){
             newEntry.style.backgroundColor = "#ededed";
         }
         punchLog.appendChild(newEntry);
     }
+    punchLog.scrollTop = punchLog.scrollHeight;
 
 }
 

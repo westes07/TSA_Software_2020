@@ -6,7 +6,7 @@ import {
     DBM_getUserRules
 } from "./DBM_user.mjs"
 import {
-    DBM_checkIfTimesheetExists,
+    DBM_getCurrentPunches,
     DBM_createTimesheetEntry,
     DBM_checkEmployeeRecord
 } from "./DBM_emp.mjs";
@@ -47,15 +47,31 @@ async function updateTimesheet(_punchTime, _punchType, _empId){
     if(await res !== "VALID") {
         return {status: await res};
     }
-    if(!await DBM_checkIfTimesheetExists(_empId)){
+    const prevPunches = await DBM_getCurrentPunches(_empId);
+    if(!prevPunches){ //If the employee has not clocked in yet today
         if(_punchType !== "shiftStart"){
             return {status: "Violation: Employee is not clocked in"};
         }
 
         DBM_createTimesheetEntry(_punchTime, _punchType, _empId);
     } else {
+        if(prevPunches.status === "clockedOut" && _punchType === "shiftStart"){
+            return {status: "Violation: Employee has clocked out"};
+        }
+        else if (prevPunches.status === "clockedIn" && _punchType === "lunchEnd"){
+            return {status: "Violation: Employee has not started lunch"};
+        }
+        else if(prevPunches.status === "clockedOut" && _punchType !== "lunchEnd") {
+            return {status: "Violation: Employee must end lunch"};
+        }
+        DBM_createTimesheetEntry(_punchTime, _punchType, _empId);
+
 
     }
+    let curPunches = await DBM_getCurrentPunches(_empId);
+    curPunches.status = "VALID";
+
+    return curPunches;
 
 }
 

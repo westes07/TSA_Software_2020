@@ -249,6 +249,7 @@ h1 {
 #tc_punchLog{
     display: block;
     position: absolute;
+    overflow: scroll;
     height: calc(100% - 6px);
     width: 300px;
     background-color: #fff;
@@ -256,6 +257,10 @@ h1 {
     right: 0;
     top: 0;
 }
+#tc_punchLog::-webkit-scrollbar {
+    display: none;
+}
+
 #tc_statusBox {
     width: 400px;
     font-size: 11pt;

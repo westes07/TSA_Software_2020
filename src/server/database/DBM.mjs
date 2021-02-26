@@ -41,18 +41,19 @@ function disconnect(_dbCon){
 }
 
 function setData(_dbCon, _query){
-    connect(_dbCon);
+    // connect(_dbCon);
     _dbCon.query(_query, function (err, res, fields){
         if(err) {
             console.error(err);
         }
-        disconnect(_dbCon);
+        // disconnect(_dbCon);
     });
 }
 
 async function updateData(_dbCon, _query){
-    connect(_dbCon);
-    const [row, field] = _dbCon.promise().query(_query);
+    // connect(_dbCon);
+    const [row, field] = _dbCon.promise().query(_query)
+        .catch(err => console.error(err));
     if(await row.length === 0){
         return "DNE";
     }
@@ -61,13 +62,22 @@ async function updateData(_dbCon, _query){
 }
 
 async function getData(_dbCon, _query){
-    connect(_dbCon);
+    // connect(_dbCon);
+    const [row, field] = await _dbCon.promise().query(_query);
+    if(await row.length === 0){
+        return "DNE";
+    }
+    console.log(await row[0]);
+    return await row[0];
+}
+async function getDataArray(_dbCon, _query){
+    // connect(_dbCon);
     const [row, field] = await _dbCon.promise().query(_query);
     if(await row.length === 0){
         return "DNE";
     }
     console.log(await row);
-    return await row[0];
+    return await row;
 }
 
 
@@ -79,6 +89,7 @@ export {
     emp_dbCon as emp_dbCon,
     setData as DBM_setData,
     updateData as DBM_updateData,
+    getDataArray as DBM_getDataArray,
     getData as DBM_getData,
     initDB as DBM_initDB
 }
