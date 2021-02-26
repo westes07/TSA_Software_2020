@@ -33,7 +33,7 @@ function logPunch(_data){
         setTimeout(() => {
             document.getElementById("tc_statusBox").innerHTML = "Enter your Employee ID and press the relevant punch";
             document.getElementById("tc_statusBox").style.color = "";
-        }, 2500);
+        }, 5000);
     }
 
     let punchLog = document.getElementById("tc_punchLog");

@@ -285,6 +285,12 @@ h1 {
     right: 0;
 }
 
+#tc_getPunchLog{
+    top: -50px;
+    left: calc(45% - 100px);
+    width: 200px;
+}
+
 .tc_punchLog_element{
     padding: 5px;
     font-size: 15pt;
