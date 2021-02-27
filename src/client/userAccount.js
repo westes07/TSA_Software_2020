@@ -30,7 +30,7 @@ function sendDataFull(_userName, _sessionID) {
             },
             body: JSON.stringify({
                 userName: userName,
-                password: password,
+                password: hashPass(userName,password),
                 sessionID: _sessionID
             })
         }
