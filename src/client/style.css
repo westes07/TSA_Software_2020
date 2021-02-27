@@ -290,7 +290,7 @@ h1 {
     right: 0;
 }
 
-#tc_getPunchLog{
+#tc_getPunchLog_button{
     top: -50px;
     left: calc(45% - 100px);
     width: 200px;

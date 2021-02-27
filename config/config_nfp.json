@@ -1,6 +1,6 @@
 {
   "rest":{
-    "post_num": 3,
+    "post_num": 4,
     "post_data": [
       {
         "command": "/auth/manager",
@@ -9,6 +9,10 @@
       {
         "command": "/timeclock/punch",
         "function_id": "timeclock_punch_func"
+      },
+      {
+        "command": "/timeclock/currentPunches",
+        "function_id": "timeclock_current_func"
       },
       {
         "command": "/auth/sessionID",
