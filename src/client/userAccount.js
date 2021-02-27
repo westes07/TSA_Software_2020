@@ -1,35 +1,43 @@
 import {UI_initializeUi} from "./ui.js";
 import {sha1} from "./encryption.js";
 
-
 function sendData(e){
     e.preventDefault();
+    sendDataFull( "", "");
+}
+
+function sendDataFull(_userName, _sessionID) {
     document.getElementById("sign_in_form").style.display = "none";
     document.getElementById("sign_in_post_message").style.display = "block";
 
-    const userName = document.getElementById("userName").value;
+    let userName;
+    if(_userName === "")
+        userName = document.getElementById("userName").value;
+    else
+        userName = _userName;
+
     const password = document.getElementById("password").value;
     document.getElementById("password").value = "";
 
+    if(_sessionID === "")
+        _sessionID = 0;
+
     fetch("http://localhost:8081/auth/manager", {
-        method:"POST",
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            userName: userName,
-            password: password
+            method:"POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                userName: userName,
+                password: password,
+                sessionID: _sessionID
+            })
+        }
 
-        })
-    }
-        
     ).then(res => res.json())
-    .then(data => {signIn(data)})
-    .catch(err => console.log(err));
-
-
-
+        .then(data => {signIn(data),setSessionIDCookie(data.sessionID,userName)})
+        .catch(err => console.log(err));
 }
 
 function signIn(_resJSON){
@@ -50,12 +58,70 @@ function signIn(_resJSON){
 
 // both should be shorter than 32 chars
 function hashPass(username, password) {
-    return sha1(password+username);//just the easiest way to implement a SALT
+    return sha1(password+username);//just the simplest way to implement a SALT
 }
 
 function verifyValid(username, password){
     return true;//temp
 }
 
+function getNewSessionID(_userName, _oldSessionID) {
+    const empID = document.getElementById("tc_employee_id").value;
+    fetch("http://localhost:8081/auth/sessionID",{
+        method: "POST",
+            headers: {
+            Accept: "application/json",
+                "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            userName:_userName,
+            sessionID:_oldSessionID
+        })
+    }).then(res => res.json())
+        .then(data => setSessionIDCookie(data,_userName))
+          .catch(err => console.log(err));
+}
+
+function setSessionIDCookie(_data, _userName) {
+    console.log(_data);
+    console.log(_userName);
+    // console.log(_data.expires);
+    if(_data.status === "VALID") {
+        document.cookie = "sessionID=" + _data.sessionID + ";" + "max-age=" + (_data.expires) + ";path=/" + ";samesite=strict";
+        document.cookie = "userName=" + _userName + ";" + "max-age=" + (_data.expires) + ";path=/" + ";samesite=strict";
+    }else{
+        console.log("invalid employee id")
+    }
+}
+
+function getSessionIDCookie() {
+    console.log(document.cookie);
+    console.log(document.cookie.split('; '));
+    const sid = document.cookie.split('; ')
+        .find(row => row.startsWith('sessionID='));
+    console.log(sid);
+    if(sid===undefined)
+        throw ("no session id");
+    else
+        return sid.split('=')[1];
+
+}
+
+function getUserNameCookie() {
+    console.log(document.cookie);
+    console.log(document.cookie.split('; '));
+    const sid = document.cookie.split('; ')
+        .find(row => row.startsWith('userName='));
+    console.log(sid);
+    if(sid===undefined)
+        throw ("no username");
+    else
+        return sid.split('=')[1];
+
+}
+
 export{signIn as UA_signIn}
 export{sendData as UA_sendData}
+export{sendDataFull as UA_sendDataFull}
+export{getSessionIDCookie as UA_getSessionIDCookie}
+export{getUserNameCookie as UA_getUserNameCookie}

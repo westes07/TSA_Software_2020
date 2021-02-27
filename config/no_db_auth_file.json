@@ -2,6 +2,11 @@
   "firstName": "Gregory",
   "userName": "gbell",
   "password": "1001",
+  "sessionID": {
+    "sessionID": 0,
+    "expires":0,
+    "status":"VALID"
+  },
   "position": "Developer",
   "authSuccessful": true,
   "developerMode": true,

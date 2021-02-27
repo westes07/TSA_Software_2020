@@ -18,9 +18,14 @@ function setUserPassword(_userName, _password) {
 
 
 
-async function checkUserName(_userName, _password){
+async function checkUserName(_userName, _password, _sessionID) {
     let res = await DBM_getUserData(_userName, "USER_PASSWORD");
-
+    if (_sessionID !== 0) {
+        const valid = await checkSessionID(_userName, _sessionID);
+        if(valid === 1){
+            _password = res;
+        }
+    }
 
     if(res === null){
         console.log("USER HAS NO PASSWORD");
@@ -75,11 +80,26 @@ async function updateTimesheet(_punchTime, _punchType, _empId){
 
 }
 
+async function checkSessionID(_userName, _sessionID){
+    const sessionID = await DBM_getUserData(_userName, "USER_SESSION_ID");//serverData is object containing: username, expires, and sessionID
+    if(sessionID.expires < Date.now()){
+        console.log("sessionID expired");
+        return -1;//log out the user & prevent further call until user has a valid sessionID
+    }
+    else if(sessionID.sessionID === _sessionID){
+        console.log("sessionID valid");
+        return 1;
+    }else{
+        console.log("sessionID is not valid");
+        return 0;//log out the user & prevent further call until user has a valid sessionID
+    }
+}
 
 
 export {
     DBM_initDB as DBM_initDB,
     checkUserName as db_checkUserName,
+    checkSessionID as db_checkSessionID,
     DBM_getUserRules as db_getUserRules,
     DBM_getUserInfo as db_getUserInfo,
     DBM_getCurrentPunches as db_getCurrentPunches,
