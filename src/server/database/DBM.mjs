@@ -81,12 +81,12 @@ async function localQuery(_dbCon, _query) {
     return result;
 }
 
-function setData(_dbCon, _query){
+async function setData(_dbCon, _query){
     // connect(_dbCon);
     if(usingCloud){
-        _dbCon.items.create(_query).then(res => console.log(res));
+        await _dbCon.items.create(_query);
     }else {
-        localQuery(_dbCon, _query);
+        await localQuery(_dbCon, _query);
     }
 
 }
