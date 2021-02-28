@@ -1,10 +1,10 @@
-import {DBM_getDataArray, DBM_setData, DBM_getData, emp_dbCon} from "./DBM.mjs";
+import {DBM_getDataArray, DBM_setData, DBM_getData, emp_dbCon, timesheet_dbCon} from "./DBM.mjs";
 
 
 async function getCurrentPunches(_empId){
-    let query = "SELECT * FROM emp.time_sheet WHERE EMP_ID=" + _empId;
-    const res = JSON.parse(JSON.stringify(await DBM_getDataArray(emp_dbCon, query)));
-    if (await res === "DNE")
+    let query = "SELECT * FROM timesheets WHERE timesheets.EMP_ID=\'" + _empId + "\'";
+    const res = await JSON.parse(JSON.stringify(await DBM_getDataArray(timesheet_dbCon, query)));
+    if (res === "DNE")
         return false;
     let formatted = {
         status: "",
@@ -21,15 +21,22 @@ async function getCurrentPunches(_empId){
 }
 
 function createTimesheetEntry(_punchTime, _punchType, _empId){
-    let query =
-        "INSERT INTO emp.time_sheet(EMP_ID, PUNCH_TIME, PUNCH_TYPE) " +
-        "VALUES(" + _empId + "," + _punchTime + ",\'" +  _punchType + "\');";
+    // PURE SQL. But ms is special and doesnt support sql creation :/
+    // let query =
+    //     "INSERT INTO time_sheet(EMP_ID, PUNCH_TIME, PUNCH_TYPE) " +
+    //     "VALUES(" + _empId + "," + _punchTime + ",\'" +  _punchType + "\');";
 
-    DBM_setData(emp_dbCon, query);
+    let query = {
+        EMP_ID: _empId,
+        PUNCH_TIME: _punchTime,
+        PUNCH_TYPE: _punchType
+    }
+
+    DBM_setData(timesheet_dbCon, query);
 }
 
 async function checkEmployeeRecord(_empId) {
-    let query = "SELECT EMP_FIRST, EMP_WAGE FROM emp.employee_data WHERE EMP_ID=" + _empId;
+    let query = "SELECT emp.employee_data.EMP_FIRST, emp.employee_data.EMP_WAGE FROM emp WHERE emp.employee_data.EMP_ID=\'" + _empId + "\'";
     const res = await DBM_getData(emp_dbCon, query);
     if(await res === "DNE"){
         return "Invalid Employee ID";

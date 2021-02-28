@@ -19,8 +19,8 @@ function setUserData(_userName, _field, _data) {
 
 async function getUserRules(_userName){
     let query =
-        "SELECT users.user_data.overview_allowed, users.user_data.time_clock_allowed, users.user_data.employee_manager_allowed " +
-        "FROM users WHERE users.user_data.ACCOUNT_NAME=\'" + _userName+"\'";
+        "SELECT users.user_rules.overview_allowed, users.user_rules.time_clock_allowed, users.user_rules.employee_manager_allowed " +
+        "FROM users WHERE users.user_rules.ACCOUNT_NAME=\'" + _userName+"\'";
     return await DBM_getData(user_dbCon, query);
 }
 
