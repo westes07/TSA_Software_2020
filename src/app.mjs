@@ -25,6 +25,22 @@ if(!fs.existsSync(configFile)){
 
 const parsedConfig = JSON.parse(fs.readFileSync(configFile, null));
 
+if(parsedConfig.database.usingCloud && !parsedConfig.database.loadAuthInfoFromEnv){
+    console.error("ERROR: API Keys must be loaded from environment variables");
+    process.exit(0);
+} else if(parsedConfig.database.usingCloud && parsedConfig.database.loadAuthInfoFromEnv){
+    if(!process.env.TSA_2020_DB_KEY){
+        console.error("ERROR: Database API key does not exist");
+        process.exit(0);
+    }
+
+    parsedConfig.database.emp.authKey = process.env.TSA_2020_DB_KEY;
+    parsedConfig.database.user.authKey = process.env.TSA_2020_DB_KEY;
+
+} else {
+    console.error("ERROR: Unhanded DB load case");
+    process.exit(0);
+}
 
 
 
