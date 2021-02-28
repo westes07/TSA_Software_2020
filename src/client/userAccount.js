@@ -30,13 +30,13 @@ function sendDataFull(_userName, _sessionID) {
             },
             body: JSON.stringify({
                 userName: userName,
-                password: hashPass(userName,password),
+                password: password/*hashPass(userName,password*/,
                 sessionID: _sessionID
             })
         }
 
     ).then(res => res.json())
-        .then(data => {signIn(data),setSessionIDCookie(data.sessionID,userName)})
+        .then(data => {signIn(data), setSessionIDCookie(data,userName)})
         .catch(err => console.log(err));
 }
 
@@ -57,6 +57,9 @@ function signIn(_resJSON){
 
 
 // both should be shorter than 32 chars
+
+//©S0{ó`hyK2[M¯ôÄç4©S0{ó\`hyK2[M¯ôÄç4
+
 function hashPass(username, password) {
     return sha1(password+username);//just the simplest way to implement a SALT
 }
@@ -83,14 +86,20 @@ function getNewSessionID(_userName, _oldSessionID) {
 }
 
 function setSessionIDCookie(_data, _userName) {
-    console.log(_data);
-    console.log(_userName);
-    // console.log(_data.expires);
-    if(_data.status === "VALID") {
-        document.cookie = "sessionID=" + _data.sessionID + ";" + "max-age=" + (_data.expires) + ";path=/" + ";samesite=strict";
-        document.cookie = "userName=" + _userName + ";" + "max-age=" + (_data.expires) + ";path=/" + ";samesite=strict";
-    }else{
-        console.log("invalid employee id")
+    if(_data.status === "valid") {
+        const data = _data.sessionID;
+        console.log(data);
+        console.log(_userName);
+        // console.log(_data.expires);
+        if (data.status === "VALID") {
+            document.cookie = "sessionID=" + data.sessionID + ";" + "max-age=" + (data.expires) + ";path=/" + ";samesite=strict";
+            document.cookie = "userName=" + _userName + ";" + "max-age=" + (data.expires) + ";path=/" + ";samesite=strict";
+        } else {
+            console.log("invalid employee id");
+        }
+    }
+    else{
+        console.log("could not sign in");
     }
 }
 
