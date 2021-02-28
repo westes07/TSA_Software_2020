@@ -6,7 +6,6 @@ const util = require("util");
 const fs = require("fs");
 const CosmosClient = require("@azure/cosmos").CosmosClient;
 
-let cloudConfig= {};
 let usingCloud = false;
 let cloud_dbCon;
 let user_dbContainer;
@@ -15,12 +14,6 @@ let emp_dbContainer;
 function initDB(_dbInfo){
 
     if(_dbInfo.usingCloud){
-        cloudConfig = {
-            endpoint: _dbInfo.address,
-            key: _dbInfo.emp.authKey,
-            databaseId: _dbInfo.cloudDBName,
-            partitionKey: { kind: "Hash", paths: ["/category"]}
-        };
         const client = new CosmosClient({endpoint: _dbInfo.address, key: _dbInfo.emp.authKey});
         cloud_dbCon = client.database(_dbInfo.cloudDBName);
         user_dbContainer = cloud_dbCon.container("users");
@@ -58,52 +51,71 @@ function disconnect(_dbCon){
     _dbCon.end();
 }
 
-function setData(_dbCon, _query){
-    // connect(_dbCon);
-    _dbCon.query(_query, function (err, res, fields){
-        if(err) {
-            console.error(err);
-        }
-        // disconnect(_dbCon);
-    });
+async function cloudQuery(_dbCon, _query) {
+    let result;
+    try {
+        const item = await _dbCon.items
+            .query({query: _query})
+            .fetchAll();
+
+        // console.log(item);
+        result = item.resources;
+    } catch (e) {
+        console.error(e.message);
+        result = "ERROR";
+    }
+    return result;
 }
 
-async function updateData(_dbCon, _query){
-    // connect(_dbCon);
-    const [row, field] = _dbCon.promise().query(_query)
-        .catch(err => console.error(err));
-    if(await row.length === 0){
-        return "DNE";
+async function localQuery(_dbCon, _query) {
+    let result;
+    try {
+        const [row, field] = await _dbCon.promise().query(_query)
+        result = row;
+    } catch (e) {
+        console.error(e.message);
+        result = "ERROR";
     }
-    console.log(await row);
-    return await row[0];
+    return result;
+}
+
+function setData(_dbCon, _query){
+    // connect(_dbCon);
+    usingCloud ? cloudQuery(_dbCon, _query) : localQuery(_dbCon, _query);
+
+}
+
+function updateData(_dbCon, _query){
+    usingCloud ? cloudQuery(_dbCon, _query) : localQuery(_dbCon, _query);
 }
 
 async function getData(_dbCon, _query) {
     // connect(_dbCon);
-    if (usingCloud) {
-        const {resource: item} = await _dbCon.items
-            .query({query: _query})
-            .fetchAll();
+    let result = usingCloud ? await cloudQuery(_dbCon, _query) : await localQuery(_dbCon, _query);
 
-        console.log(item[0]);
-        return item[0];
-    }
-    const [row, field] = await _dbCon.promise().query(_query);
-    if(await row.length === 0){
+    if(result.length === 0){
         return "DNE";
     }
-    console.log(await row[0]);
-    return await row[0];
+    if(result === "ERROR"){
+        return "ERROR";
+    }
+
+    console.log(result[0]);
+    return result[0];
 }
 async function getDataArray(_dbCon, _query){
     // connect(_dbCon);
-    const [row, field] = await _dbCon.promise().query(_query);
-    if(await row.length === 0){
+    let result = usingCloud ? await cloudQuery(_dbCon, _query) : await localQuery(_dbCon, _query);
+
+    if(result.length === 0){
         return "DNE";
     }
-    console.log(await row);
-    return await row;
+    if(result === "ERROR"){
+        return "ERROR";
+    }
+
+    console.log(result);
+    return result;
 }
 
 
