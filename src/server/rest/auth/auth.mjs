@@ -87,8 +87,8 @@ function generateSessionID(_username) {
     const sessionID = {"sessionID":ret, "expires":exp};
 
     // TODO: store sessionID, not currently working
-    // DBM_setUserData(_username,"USER_SESSION_ID",sessionID);
-
+    DBM_setUserData(_username,"USER_SESSION_ID.sessionID",sessionID.sessionID);
+    DBM_setUserData(_username,"USER_SESSION_ID.expires",sessionID.expires);
 
     return ret;
 }

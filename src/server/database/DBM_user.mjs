@@ -13,7 +13,7 @@ async function getUserData(_userName, _field) {
 }
 
 function setUserData(_userName, _field, _data) {
-    let query = "UPDATE users SET users.user_data." + _field + "=" + _data+"WHERE users.user_data.ACCOUNT_NAME=\'" + _userName+"\'";
+    let query = "UPDATE users SET users.user_data." + _field + "=" + _data+" WHERE users.user_data.ACCOUNT_NAME=\'" + _userName+"\'";
     DBM_setData(user_dbCon, query);
 }
 
