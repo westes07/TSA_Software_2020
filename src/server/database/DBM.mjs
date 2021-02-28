@@ -9,6 +9,7 @@ const CosmosClient = require("@azure/cosmos").CosmosClient;
 let usingCloud = false;
 let cloud_dbCon;
 let user_dbContainer;
+let timesheet_dbContainer
 let emp_dbContainer;
 
 function initDB(_dbInfo){
@@ -18,6 +19,7 @@ function initDB(_dbInfo){
         cloud_dbCon = client.database(_dbInfo.cloudDBName);
         user_dbContainer = cloud_dbCon.container("users");
         emp_dbContainer = cloud_dbCon.container("emp");
+        timesheet_dbContainer = cloud_dbCon.container("timesheets");
         usingCloud = true;
         return;
     }
@@ -79,9 +81,13 @@ async function localQuery(_dbCon, _query) {
     return result;
 }
 
-function setData(_dbCon, _query){
+async function setData(_dbCon, _query){
     // connect(_dbCon);
-    usingCloud ? cloudQuery(_dbCon, _query) : localQuery(_dbCon, _query);
+    if(usingCloud){
+        await _dbCon.items.create(_query);
+    }else {
+        await localQuery(_dbCon, _query);
+    }
 
 }
 
@@ -125,6 +131,7 @@ async function getDataArray(_dbCon, _query){
 export {
     user_dbContainer as user_dbCon,
     emp_dbContainer as emp_dbCon,
+    timesheet_dbContainer as timesheet_dbCon,
     setData as DBM_setData,
     updateData as DBM_updateData,
     getDataArray as DBM_getDataArray,
