@@ -5,7 +5,7 @@ async function getUserData(_userName, _field) {
         console.log("Wild card operations are not allowed");
         return("ERROR");
     }
-    let query = "SELECT " + _field + " FROM users.user_data WHERE ACCOUNT_NAME=\'" + _userName+"\'";
+    let query = "SELECT users.user_data." + _field + " FROM users WHERE users.user_data.ACCOUNT_NAME=\'" + _userName+"\'";
     const res = await DBM_getData(user_dbCon, query);
 
     return res[_field];
@@ -13,17 +13,19 @@ async function getUserData(_userName, _field) {
 }
 
 function setUserData(_userName, _field, _data) {
-    let query = "UPDATE users.user_data SET " + _field + "=" + _data+"WHERE ACCOUNT_NAME=\'" + _userName+"\'";
+    let query = "UPDATE users SET users.user_data." + _field + "=" + _data+"WHERE users.user_data.ACCOUNT_NAME=\'" + _userName+"\'";
     DBM_setData(user_dbCon, query);
 }
 
 async function getUserRules(_userName){
-    let query = "SELECT overview_allowed, time_clock_allowed, employee_manager_allowed FROM users.user_rules WHERE ACCOUNT_NAME=\'" + _userName+"\'";
+    let query =
+        "SELECT users.user_data.overview_allowed, users.user_data.time_clock_allowed, users.user_data.employee_manager_allowed " +
+        "FROM users WHERE users.user_data.ACCOUNT_NAME=\'" + _userName+"\'";
     return await DBM_getData(user_dbCon, query);
 }
 
 async function getUserInfo(_userName){
-    let query = "SELECT FIRST_NAME, POSITION FROM users.user_data WHERE ACCOUNT_NAME=\'" + _userName+"\'";
+    let query = "SELECT users.user_data.FIRST_NAME, users.user_data.POSITION FROM users WHERE users.user_data.ACCOUNT_NAME=\'" + _userName+"\'";
     return await DBM_getData(user_dbCon, query);
 }
 
