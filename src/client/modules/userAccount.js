@@ -1,4 +1,4 @@
-import {UI_initializeUi} from "./ui.js";
+import {UI_initializeUi} from "../ui.js";
 import {sha1} from "./encryption.js";
 
 function sendData(e){

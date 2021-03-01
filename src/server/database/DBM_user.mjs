@@ -14,9 +14,7 @@ function setUserData(_jsonToSet) {
 }
 
 async function updateUserData(_userName, _field, _data) {
-
-
-
+    //So for some reason
     let query = "SELECT users.id FROM users WHERE users.user_data.ACCOUNT_NAME=\'" + _userName + "\'";
     let id = await DBM_getData(user_dbCon, query);
     query = "SELECT * from users WHERE users.id=\'" + id.id + "\'";

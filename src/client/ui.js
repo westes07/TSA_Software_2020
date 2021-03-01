@@ -1,4 +1,4 @@
-import {TC_linkToDom} from "./timeclock.js";
+import {TC_linkToDom} from "./modules/timeclock.js";
 
 function initializeUi(_resJson){
     document.getElementById("userInfo_firstName").innerText = _resJson.firstName;

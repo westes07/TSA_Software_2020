@@ -30,13 +30,9 @@
     "cloudDBName": "payroll_db",
     "address": "https://tsa-2020-payroll.documents.azure.com:443/",
     "emp": {
-      "userName": "db_user_emp",
-      "password": "password1234",
       "authKey": ""
     },
     "user": {
-      "userName": "db_user_auth",
-      "password": "password1234",
       "authKey": ""
     }
   },
