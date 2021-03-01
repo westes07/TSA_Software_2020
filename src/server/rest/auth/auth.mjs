@@ -1,6 +1,6 @@
 import {db_checkUserName, db_getUserInfo, db_getUserRules, db_checkSessionID} from "../../database/DBM_api.mjs";
 import { createRequire } from 'module'
-import {DBM_getUserData, DBM_setUserData} from "../../database/DBM_user.mjs";
+import {DBM_getUserData, DBM_setUserData, DBM_updateUserData} from "../../database/DBM_user.mjs";
 import {DBM_checkEmployeeRecord} from "../../database/DBM_emp.mjs";
 const require = createRequire(import.meta.url);
 const fs = require("fs");
@@ -84,11 +84,10 @@ function generateSessionID(_username) {
     const crypto = require('crypto');
     const ret = crypto.randomInt(1,2**48-1);
     const exp = expires * 1000 + 60000 + Date.now();    //60000 is one minute "grace period"
-    const sessionID = {"sessionID":ret, "expires":exp};
+    const sessionID = {sessionID:ret, expires:exp};
 
     // TODO: store sessionID, not currently working
-    DBM_setUserData(_username,"USER_SESSION_ID.sessionID",sessionID.sessionID);
-    DBM_setUserData(_username,"USER_SESSION_ID.expires",sessionID.expires);
+    DBM_updateUserData(_username,"user_data.USER_SESSION_ID",sessionID);
 
     return ret;
 }
