@@ -91,9 +91,19 @@ async function setData(_dbCon, _query){
 
 }
 
-function updateData(_dbCon, _query){
-    usingCloud ? cloudQuery(_dbCon, _query) : localQuery(_dbCon, _query);
+function updateData(_dbCon, _id, _newData){
+    if(usingCloud){
+        try{
+            _dbCon.item(_id)
+                .replace(_newData);
+        }catch (e){
+            console.log(e.message);
+        }
+    }
+
+
 }
+
 
 async function getData(_dbCon, _query) {
     // connect(_dbCon);

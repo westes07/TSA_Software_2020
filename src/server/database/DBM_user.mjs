@@ -1,10 +1,6 @@
-import {DBM_getData, DBM_setData, user_dbCon} from "./DBM.mjs";
+import {DBM_getData, DBM_setData, DBM_updateData, user_dbCon} from "./DBM.mjs";
 
 async function getUserData(_userName, _field) {
-    if(_field === "*") {
-        console.log("Wild card operations are not allowed");
-        return("ERROR");
-    }
     let query = "SELECT users.user_data." + _field + " FROM users WHERE users.user_data.ACCOUNT_NAME=\'" + _userName+"\'";
     const res = await DBM_getData(user_dbCon, query);
 
@@ -12,9 +8,25 @@ async function getUserData(_userName, _field) {
 
 }
 
-function setUserData(_userName, _field, _data) {
-    let query = "UPDATE users SET users.user_data." + _field + "=" + _data+" WHERE users.user_data.ACCOUNT_NAME=\'" + _userName+"\'";
-    DBM_setData(user_dbCon, query);
+
+function setUserData(_jsonToSet) {
+    DBM_setData(user_dbCon, _jsonToSet);
+}
+
+async function updateUserData(_userName, _field, _data) {
+
+
+
+    let query = "SELECT users.id FROM users WHERE users.user_data.ACCOUNT_NAME=\'" + _userName + "\'";
+    let id = await DBM_getData(user_dbCon, query);
+    query = "SELECT * from users WHERE users.id=\'" + id.id + "\'";
+    _field = _field.split('.');
+    let oldData = await DBM_getData(user_dbCon, query);
+    oldData[_field[0]][_field[1]] = _data;
+
+
+    DBM_updateData(user_dbCon, id.id, oldData);
+
 }
 
 async function getUserRules(_userName){
@@ -33,6 +45,7 @@ async function getUserInfo(_userName){
 export {
     getUserData as DBM_getUserData,
     setUserData as DBM_setUserData,
+    updateUserData as DBM_updateUserData,
     getUserRules as DBM_getUserRules,
     getUserInfo as DBM_getUserInfo
 
