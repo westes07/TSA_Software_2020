@@ -114,6 +114,27 @@ function sha1(str) {
     ret+=String.fromCodePoint(Math.floor((h4%(1<<24))/(1<<16)));
     ret+=String.fromCodePoint(Math.floor(h4/(1<<24)));
     // console.log(ret);
+    return stringToHexRep(ret);
+}
+
+function stringToHexRep(str) {
+    let ret = "";
+    let temp, temp2, temp3;
+    const len = str.length;
+    for(let i = 0; i < len; i++){
+        temp = str.charCodeAt(i);
+        temp2 = Math.floor(temp%16);
+        temp3 = Math.floor(temp/16);
+        if(temp2 < 10)
+            ret += String.fromCodePoint(temp2+48);
+        else
+            ret += String.fromCodePoint(temp2+87);
+        if(temp3 < 10)
+            ret += String.fromCodePoint(temp3+48);
+        else
+            ret += String.fromCodePoint(temp3+87);
+
+    }
     return ret;
 }
 
