@@ -22,7 +22,7 @@ async function getCurrentEmployees(){
 
 
 function createNewEmployee(){
-
+    //make sure you hash the password before sending it over
 }
 
 function loadEmployeeList(_employeeList){
@@ -84,7 +84,7 @@ async function loadEditor(_empId){
 
 function commitChanges(){
     //def gonna want to add password protection to this function
-
+    //make sure you hash the password before sending it over
 
 
 }
