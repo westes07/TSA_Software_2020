@@ -1,11 +1,11 @@
-import {db_getEmployeeInfo} from "../../database/DBM_api.mjs"
+import {db_getEmployeeInfo, db_updateEmployeeInfo} from "../../database/DBM_api.mjs"
 
 
 
 async function getEmployee(req, res){
 
     const data = req.body;
-    console.log(req.body);
+    // console.log(req.body);
 
     if(data.mode === "list"){
         const result = await db_getEmployeeInfo("list", "");
@@ -33,6 +33,21 @@ async function getEmployee(req, res){
 
 
 async function setEmployees(req, res){
+    const data = req.body;
+    if(data.mode === "new"){
+        db_updateEmployeeInfo("new", data.data);
+        res.send({status: "VALID"});
+        return;
+    } 
+    if(data.mode === "update"){
+        db_updateEmployeeInfo(data.empID, data.data);
+        res.send({status: "VALID"});
+        return;
+    }
+
+
+
+
 
 }
 

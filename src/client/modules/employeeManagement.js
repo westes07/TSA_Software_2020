@@ -44,7 +44,9 @@ function loadEmployeeList(_employeeList){
         newButton.classList.add("app_button_frame");
         newButton.classList.add("em_button");
         newButton.classList.add("em_nonDefault");
-        newButton.addEventListener("click", e=> {e.preventDefault(); loadEditor(_employeeList.empList[i].EMP_ID);});
+        newButton.addEventListener("click", e=> {e.preventDefault(); 
+            newButton.classList.add("em_button_active");
+            loadEditor(_employeeList.empList[i].EMP_ID);});
         sideBar.appendChild(newButton);
     }
 
@@ -84,9 +86,32 @@ async function loadEditor(_empId){
 
 function commitChanges(){
     //def gonna want to add password protection to this function
+    const isNewEmp = document.getElementById("em_createNewEmployee").classList.contains("em_button_active");
+    const empId = document.getElementById("em_employeeId").value;
+    const empFirst = document.getElementById("em_employeeFirstName").value;
+    const empLast = document.getElementById("em_employeeLastName").value;
+    const empWage = document.getElementById("em_hourly").value;
 
-
-
+    fetch("http://localhost:8081/emp/setEmployees", {
+        method: "POST",
+        headers:{
+            Accept: "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            mode: isNewEmp ? "new" : "update",
+            empID: empId,
+            data: {
+                EMP_ID: empId,
+                EMP_LAST: empLast,
+                EMP_FIRST: empFirst,
+                EMP_SALARY: 0,
+                EMP_WAGE: empWage,
+                EMP_YTD: 0.00
+            }
+            
+        })
+    })
 }
 
 function closeEditor(){
@@ -105,8 +130,8 @@ function closeEditor(){
 
     let sidebar = document.getElementById("em_sideBar");
     for(let i = 0; i < sidebar.children.length; i++){
-        if(editor.children[i].classList.contains("em_button_active")){
-            editor.children[i].classList.remove("em_button_active");
+        if(sidebar.children[i].classList.contains("em_button_active")){
+            sidebar.children[i].classList.remove("em_button_active");
         }
     }
 
@@ -117,10 +142,6 @@ function closeEditor(){
 
 function override(_overrideType){
     
-}
-
-function addEmployee(employeeRecord){
-
 }
 
 

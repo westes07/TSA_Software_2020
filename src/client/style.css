@@ -128,7 +128,7 @@ h1 {
 }
 
 .app_button_frame.em_button {
-    position: absolute;
+    /* position: absolute; */
     width: 190px;
     border-right: #e6592e 3px solid;
     font-size: 13pt;

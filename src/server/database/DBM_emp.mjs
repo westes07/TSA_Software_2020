@@ -1,4 +1,4 @@
-import {DBM_getDataArray, DBM_setData, DBM_getData, emp_dbCon, timesheet_dbCon} from "./DBM.mjs";
+import {DBM_getDataArray, DBM_setData, DBM_getData, DBM_updateData, emp_dbCon, timesheet_dbCon} from "./DBM.mjs";
 
 
 async function getCurrentPunches(_empId){
@@ -60,6 +60,28 @@ async function getEmployeeData(_empId){
     return res; 
 }
 
+
+async function updateEmployeeData(_empId, _newData){
+    let query = "SELECT emp.id FROM emp WHERE emp.employee_data.EMP_ID=\'" + _empId + "\'";
+    let id = await DBM_getData(emp_dbCon, query);
+    query = "SELECT * from emp WHERE emp.id=\'" + id.id + "\'";
+    let oldData = await DBM_getData(emp_dbCon, query);
+    oldData.employee_data = _newData;
+
+    DBM_updateData(emp_dbCon, id.id, oldData);
+
+
+}
+
+async function createEmployeeData(_newData){
+    let query = {
+        employee_data: _newData
+    }
+
+    DBM_setData(emp_dbCon, query);
+
+}
+
 function getTimesheetEntry(_empId){
 
 }
@@ -70,5 +92,7 @@ export {
     getCurrentPunches as DBM_getCurrentPunches,
     getEmployeeList as DBM_getEmployeeList,
     getEmployeeData as DBM_getEmployeeData,
+    updateEmployeeData as DBM_updateEmployeeData,
+    createEmployeeData as DBM_createEmployeeData,
     createTimesheetEntry as DBM_createTimesheetEntry
 }

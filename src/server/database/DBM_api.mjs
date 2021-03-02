@@ -10,7 +10,9 @@ import {
     DBM_createTimesheetEntry,
     DBM_checkEmployeeRecord,
     DBM_getEmployeeList,
-    DBM_getEmployeeData
+    DBM_getEmployeeData,
+    DBM_updateEmployeeData,
+    DBM_createEmployeeData
 } from "./DBM_emp.mjs";
 
 function setUserPassword(_userName, _password) {
@@ -131,7 +133,14 @@ async function getEmployeeInfo(_type, _empId){
 
 }
 
-async function updateEmployeeInfo(_empId, newData){
+async function updateEmployeeInfo(_empId, _newData){
+    if(_empId === "new"){
+        DBM_createEmployeeData(_newData);
+        return;
+    }
+    DBM_updateEmployeeData(_empId, _newData);
+
+
 
 }
 
@@ -144,6 +153,7 @@ export {
     DBM_getUserInfo as db_getUserInfo,
     DBM_getCurrentPunches as db_getCurrentPunches,
     getEmployeeInfo as db_getEmployeeInfo,
+    updateEmployeeInfo as db_updateEmployeeInfo,
     updateTimesheet as db_updateTimesheet
 
 }
