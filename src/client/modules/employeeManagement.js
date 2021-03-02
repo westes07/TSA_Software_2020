@@ -1,3 +1,5 @@
+import {UA_getSessionID, UA_getUserName} from "./userAccount.js"
+
 async function getCurrentEmployees(){
 
 
@@ -10,7 +12,9 @@ async function getCurrentEmployees(){
         body: JSON.stringify({
             mode: "list",
             empID: "",
-            
+            userName: UA_getUserName(),
+            sessionID: UA_getSessionID(),
+
         })
     }).then(res => res.json())
     .then(data => {loadEmployeeList(data)})
@@ -68,7 +72,8 @@ async function loadEditor(_empId){
             body: JSON.stringify({
                 mode: "single",
                 empID: _empId,
-                
+                userName: UA_getUserName(),
+                sessionID: UA_getSessionID(),
             })
         });
         empData = await empData.json();
@@ -101,6 +106,8 @@ function commitChanges(){
         body: JSON.stringify({
             mode: isNewEmp ? "new" : "update",
             empID: empId,
+            userName: UA_getUserName(),
+            sessionID: UA_getSessionID(),
             data: {
                 EMP_ID: empId,
                 EMP_LAST: empLast,

@@ -1,7 +1,7 @@
 import { createRequire } from 'module'
 const require = createRequire(import.meta.url);
 const fs = require("fs");
-const path = require("path")
+const path = require("path");
 import {ex_startHttpServer} from "./server/server.mjs";
 import {ex_startRestServer} from "./server/server.mjs";
 import {DBM_initDB} from "./server/database/DBM_api.mjs";

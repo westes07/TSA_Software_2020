@@ -1,12 +1,16 @@
 import {UI_initializeUi} from "../ui.js";
 import {sha1} from "./encryption.js";
 
+let gb_userName;
+let gb_sessionID;
+
 function sendData(e){
     e.preventDefault();
     sendDataFull( "", "");
 }
 
 function sendDataFull(_userName, _sessionID) {
+
     document.getElementById("sign_in_form").style.display = "none";
     document.getElementById("sign_in_post_message").style.display = "block";
 
@@ -22,6 +26,10 @@ function sendDataFull(_userName, _sessionID) {
 
     if(_sessionID === "")
         _sessionID = 0;
+
+    gb_userName = userName;
+    gb_sessionID = _sessionID;
+
     console.log( "sending sessionID: " + _sessionID);
     console.log( "sending userName: " + userName);
     fetch("http://localhost:8081/auth/manager", {
@@ -57,13 +65,14 @@ function signIn(_resJSON){
     }
 }
 
+function getSessionID() {
+    return gb_sessionID;
+}
 
-// both should be shorter than 32 chars
-//=^³)uËÒAØüz
-// oZ
-//©S0{ó`hyK2[M¯ôÄç4©S0{ó\`hyK2[M¯ôÄç4
-// console.log(hashPass("def","1001"));
-//d3c9e53b92211057bc2d10148dcfa791d098f6a5
+function getUserName() {
+    return gb_userName;
+}
+
 
 function hashPass(username, password) {
     return sha1(password+username);//just the simplest way to implement a SALT
@@ -99,6 +108,7 @@ function setSessionIDCookie(_data, _userName) {
         if (data.status === "VALID") {
             document.cookie = "sessionID=" + data.sessionID + ";" + "max-age=" + (data.expires) + ";path=/" + ";samesite=strict";
             document.cookie = "userName=" + _userName + ";" + "max-age=" + (data.expires) + ";path=/" + ";samesite=strict";
+            gb_sessionID = data.sessionID;
         } else {
             console.log("invalid employee id");
         }
@@ -139,3 +149,5 @@ export{sendData as UA_sendData}
 export{sendDataFull as UA_sendDataFull}
 export{getSessionIDCookie as UA_getSessionIDCookie}
 export{getUserNameCookie as UA_getUserNameCookie}
+export{getSessionID as UA_getSessionID}
+export{getUserName as UA_getUserName}

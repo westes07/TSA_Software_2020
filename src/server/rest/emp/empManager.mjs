@@ -1,11 +1,18 @@
-import {db_getEmployeeInfo, db_updateEmployeeInfo} from "../../database/DBM_api.mjs"
-
+import {db_getEmployeeInfo, db_updateEmployeeInfo, db_checkSessionID} from "../../database/DBM_api.mjs"
+import {DBM_getUserRules} from "../../database/DBM_user.mjs"
 
 
 async function getEmployee(req, res){
-
     const data = req.body;
     // console.log(req.body);
+    if(await db_checkSessionID(data.userName, data.sessionID) !== 1){
+        res.send({status:"invalid username or sessionID"});
+        return;
+    }
+    if((await DBM_getUserRules(data.userName)).employee_manager_allowed !== 1){
+        res.send({status:"invalid permissions"});
+        return;
+    }
 
     if(data.mode === "list"){
         const result = await db_getEmployeeInfo("list", "");
@@ -34,6 +41,16 @@ async function getEmployee(req, res){
 
 async function setEmployees(req, res){
     const data = req.body;
+    // console.log(req.body);
+    if(await db_checkSessionID(data.userName, data.sessionID) !== 1){
+        res.send({status:"invalid username or sessionID"});
+        return;
+    }
+    if((await DBM_getUserRules(data.userName)).employee_manager_allowed !== 1){
+        res.send({status:"invalid permissions"});
+        return;
+    }
+
     if(data.mode === "new"){
         db_updateEmployeeInfo("new", data.data);
         res.send({status: "VALID"});

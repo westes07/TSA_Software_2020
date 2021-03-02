@@ -9,7 +9,7 @@ const CosmosClient = require("@azure/cosmos").CosmosClient;
 let usingCloud = false;
 let cloud_dbCon;
 let user_dbContainer;
-let timesheet_dbContainer
+let timesheet_dbContainer;
 let emp_dbContainer;
 
 function initDB(_dbInfo){
@@ -72,7 +72,7 @@ async function cloudQuery(_dbCon, _query) {
 async function localQuery(_dbCon, _query) {
     let result;
     try {
-        const [row, field] = await _dbCon.promise().query(_query)
+        const [row, field] = await _dbCon.promise().query(_query);
         result = row;
     } catch (e) {
         console.error(e.message);
