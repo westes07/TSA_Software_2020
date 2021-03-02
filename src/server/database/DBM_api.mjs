@@ -83,6 +83,10 @@ async function updateTimesheet(_punchTime, _punchType, _empId){
 async function checkSessionID(_userName, _sessionID){
     const sessionID = await DBM_getUserData(_userName, "USER_SESSION_ID");//sessionID is object containing: username, expires, and sessionID
     console.log(sessionID);
+    console.log(sessionID.expires);
+    console.log(Date.now());
+    console.log(sessionID.sessionID);
+    console.log(_sessionID);
     if(sessionID === undefined){
         console.log("could not obtain sessionID");
         return -2;
@@ -91,7 +95,7 @@ async function checkSessionID(_userName, _sessionID){
         console.log("sessionID expired");
         return -1;//log out the user & prevent further call until user has a valid sessionID
     }
-    else if(sessionID.sessionID === _sessionID){
+    else if(sessionID.sessionID == _sessionID){
         console.log("sessionID valid");
         return 1;
     }else{

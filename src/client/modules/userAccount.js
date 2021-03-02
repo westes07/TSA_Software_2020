@@ -19,9 +19,11 @@ function sendDataFull(_userName, _sessionID) {
     const password = document.getElementById("password").value;
     document.getElementById("password").value = "";
 
+
     if(_sessionID === "")
         _sessionID = 0;
-
+    console.log( "sending sessionID: " + _sessionID);
+    console.log( "sending userName: " + userName);
     fetch("http://localhost:8081/auth/manager", {
             method:"POST",
             headers: {
