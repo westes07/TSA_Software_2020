@@ -46,7 +46,7 @@ async function checkUserName(_userName, _password, _sessionID) {
         console.log("Passwords Match!");
         return true;
     } else{
-        console.log("User name or password is incorrect")
+        console.log("User name or password is incorrect");
         return false;
     }
 }
@@ -86,11 +86,11 @@ async function updateTimesheet(_punchTime, _punchType, _empId){
 
 async function checkSessionID(_userName, _sessionID){
     const sessionID = await DBM_getUserData(_userName, "USER_SESSION_ID");//sessionID is object containing: username, expires, and sessionID
-    console.log(sessionID);
-    console.log(sessionID.expires);
-    console.log(Date.now());
-    console.log(sessionID.sessionID);
-    console.log(_sessionID);
+    // console.log(sessionID);
+    // console.log(sessionID.expires);
+    // console.log(Date.now());
+    // console.log(sessionID.sessionID);
+    // console.log(_sessionID);
     if(sessionID === undefined){
         console.log("could not obtain sessionID");
         return -2;

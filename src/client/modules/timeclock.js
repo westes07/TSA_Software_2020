@@ -1,3 +1,6 @@
+import {UA_getSessionID, UA_getUserName} from "./userAccount.js";
+
+
 function punch(_action){
     const empID = document.getElementById("tc_employee_id").value;
     if(empID.length === 0){
@@ -17,6 +20,8 @@ function punch(_action){
         },
         body: JSON.stringify({
             empID:empID,
+            userName: UA_getUserName(),
+            sessionID: UA_getSessionID(),
             punchType: _action,
             punchTime: Date.now(),
         })
@@ -43,7 +48,11 @@ function getCurrentPunches(){
             Accept: "application/json",
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({empID: empID})
+        body: JSON.stringify({
+            empID: empID,
+            userName: UA_getUserName(),
+            sessionID: UA_getSessionID(),
+        })
     }).then(res => res.json())
         .then(data => {logPunch(data)})
         .catch(err => console.log(err))
