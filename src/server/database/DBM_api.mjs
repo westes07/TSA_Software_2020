@@ -8,7 +8,9 @@ import {
 import {
     DBM_getCurrentPunches,
     DBM_createTimesheetEntry,
-    DBM_checkEmployeeRecord
+    DBM_checkEmployeeRecord,
+    DBM_getEmployeeList,
+    DBM_getEmployeeData
 } from "./DBM_emp.mjs";
 
 function setUserPassword(_userName, _password) {
@@ -105,6 +107,35 @@ async function checkSessionID(_userName, _sessionID){
 }
 
 
+async function getEmployeeInfo(_type, _empId){
+    let res;
+    if(_type === "list"){
+        res = await DBM_getEmployeeList();
+        if(res === "DNE"){
+            return "No Employees Exist";
+        }
+        else {
+            return res;
+        }
+    }
+    if(_type === "single"){
+        res = await DBM_getEmployeeData(_empId);
+        console.log(res);
+        if(res === "DNE"){
+            return "Employee does not Exist";
+        }
+        else {
+            return res;
+        }
+    }
+
+}
+
+async function updateEmployeeInfo(_empId, newData){
+
+}
+
+
 export {
     DBM_initDB as DBM_initDB,
     checkUserName as db_checkUserName,
@@ -112,6 +143,7 @@ export {
     DBM_getUserRules as db_getUserRules,
     DBM_getUserInfo as db_getUserInfo,
     DBM_getCurrentPunches as db_getCurrentPunches,
+    getEmployeeInfo as db_getEmployeeInfo,
     updateTimesheet as db_updateTimesheet
 
 }

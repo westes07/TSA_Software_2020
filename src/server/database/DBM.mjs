@@ -116,7 +116,7 @@ async function getData(_dbCon, _query) {
         return "ERROR";
     }
 
-    console.log(result[0]);
+    // console.log(result[0]);
     return result[0];
 }
 async function getDataArray(_dbCon, _query){
@@ -130,7 +130,7 @@ async function getDataArray(_dbCon, _query){
         return "ERROR";
     }
 
-    console.log(result);
+    // console.log(result);
     return result;
 }
 
