@@ -31,10 +31,10 @@ function createNewEmployee(){
 
 function loadEmployeeList(_employeeList){
     let sideBar = document.getElementById("em_sideBar");
-    for(let i = 0; i < sideBar.children.length; i++){
-        if(sideBar.children[i].classList.contains("em_nonDefault")){
-            sideBar.removeChild(sideBar.children[i]);
-        }
+    // sideBar.innerHTML = "";
+    let length = sideBar.children.length;
+    for(let i = 1; i < length; i++){
+        sideBar.removeChild(sideBar.children[i]);
     }
 
     console.log(_employeeList);
@@ -47,8 +47,7 @@ function loadEmployeeList(_employeeList){
         newButton.innerHTML = _employeeList.empList[i].EMP_FIRST;
         newButton.classList.add("app_button_frame");
         newButton.classList.add("em_button");
-        newButton.classList.add("em_nonDefault");
-        newButton.addEventListener("click", e=> {e.preventDefault(); 
+        newButton.addEventListener("click", e=> {e.preventDefault();
             newButton.classList.add("em_button_active");
             loadEditor(_employeeList.empList[i].EMP_ID);});
         sideBar.appendChild(newButton);
@@ -58,7 +57,7 @@ function loadEmployeeList(_employeeList){
 }
 
 async function loadEditor(_empId){
-    closeEditor();
+    closeEditor(false);
 
     console.log(_empId);
     document.getElementById("em_editor").classList.remove("app_hidden");
@@ -121,7 +120,7 @@ function commitChanges(){
     })
 }
 
-function closeEditor(){
+function closeEditor(_fromCloseButton){
     let editor = document.getElementById("em_editor");
     for(let i = 0; i < editor.children.length; i++){//clear current from
         if(editor.children[i].tagName === "DIV"){
@@ -135,15 +134,17 @@ function closeEditor(){
 
     }
 
-    let sidebar = document.getElementById("em_sideBar");
-    for(let i = 0; i < sidebar.children.length; i++){
-        if(sidebar.children[i].classList.contains("em_button_active")){
-            sidebar.children[i].classList.remove("em_button_active");
+    if(_fromCloseButton) {
+        let sidebar = document.getElementById("em_sideBar");
+        for (let i = 0; i < sidebar.children.length; i++) {
+            if (sidebar.children[i].classList.contains("em_button_active")) {
+                sidebar.children[i].classList.remove("em_button_active");
+            }
         }
+        getCurrentEmployees();
     }
 
     document.getElementById("em_editor").classList.add("app_hidden");
-    getCurrentEmployees();
 
 }
 
@@ -160,7 +161,7 @@ function linkToDom(){
     });
 
     document.getElementById("em_commitChanges").addEventListener("click", e => {e.preventDefault(); commitChanges();});
-    document.getElementById("em_closeEmployeeRecord").addEventListener("click", e => {e.preventDefault(); closeEditor();});
+    document.getElementById("em_closeEmployeeRecord").addEventListener("click", e => {e.preventDefault(); closeEditor(true);});
     document.getElementById("em_overrideHours").addEventListener("click", e => {e.preventDefault(); override("hours");});
 
 }

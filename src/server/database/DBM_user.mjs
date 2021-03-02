@@ -42,13 +42,22 @@ async function getUserInfo(_userName){
     return await DBM_getData(user_dbCon, query);
 }
 
+async function getUserEmpId(_userName){
+    let query = "SELECT users.user_data.EMP_ID FROM users WHERE users.user_data.ACCOUNT_NAME=\'" + _userName + "\'";
+    let res = await DBM_getData(user_dbCon, query);
+    if (res === "DNE" || res === {}){
+        return "NONE";
+    }
+    return res;
+
+}
 
 export {
     getUserData as DBM_getUserData,
     setUserData as DBM_setUserData,
     updateUserData as DBM_updateUserData,
     getUserRules as DBM_getUserRules,
-    getUserInfo as DBM_getUserInfo
-
+    getUserInfo as DBM_getUserInfo,
+    getUserEmpId as DBM_getUserEmpId
 }
 

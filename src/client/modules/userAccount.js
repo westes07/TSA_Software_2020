@@ -73,7 +73,6 @@ function getUserName() {
     return gb_userName;
 }
 
-
 function hashPass(username, password) {
     return sha1(password+username);//just the simplest way to implement a SALT
 }

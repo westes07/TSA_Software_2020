@@ -3,7 +3,8 @@ import {
     DBM_setUserData,
     DBM_getUserData,
     DBM_getUserInfo,
-    DBM_getUserRules
+    DBM_getUserRules,
+    DBM_getUserEmpId
 } from "./DBM_user.mjs"
 import {
     DBM_getCurrentPunches,
@@ -152,6 +153,7 @@ export {
     DBM_getUserRules as db_getUserRules,
     DBM_getUserInfo as db_getUserInfo,
     DBM_getCurrentPunches as db_getCurrentPunches,
+    DBM_getUserEmpId as db_getUserEmpId,
     getEmployeeInfo as db_getEmployeeInfo,
     updateEmployeeInfo as db_updateEmployeeInfo,
     updateTimesheet as db_updateTimesheet
