@@ -48,6 +48,18 @@ async function checkEmployeeRecord(_empId) {
 
 }
 
+async function getEmployeeList(){
+    let query = "SELECT emp.employee_data.EMP_ID, emp.employee_data.EMP_FIRST FROM emp";
+    const res = await DBM_getDataArray(emp_dbCon, query);
+    return res;
+}
+
+async function getEmployeeData(_empId){
+    let query = "SELECT emp.employee_data FROM emp WHERE emp.employee_data.EMP_ID=\"" + _empId + "\"";
+    const res = await DBM_getData(emp_dbCon, query);
+    return res; 
+}
+
 function getTimesheetEntry(_empId){
 
 }
@@ -56,5 +68,7 @@ function getTimesheetEntry(_empId){
 export {
     checkEmployeeRecord as DBM_checkEmployeeRecord,
     getCurrentPunches as DBM_getCurrentPunches,
+    getEmployeeList as DBM_getEmployeeList,
+    getEmployeeData as DBM_getEmployeeData,
     createTimesheetEntry as DBM_createTimesheetEntry
 }
