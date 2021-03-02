@@ -1,4 +1,5 @@
 import {TC_linkToDom} from "./modules/timeclock.js";
+import {EM_getEmployeeList, EM_linkToDom} from "./modules/employeeManagnent.js"
 
 function initializeUi(_resJson){
     document.getElementById("userInfo_firstName").innerText = _resJson.firstName;
@@ -31,6 +32,13 @@ function processRules(_rules){
     }
     if(_rules.allowedPages.employee_manager_allowed){
         document.getElementById("side_employeeManager_button").classList.remove("feature_disabled");
+        document.getElementById("main_employeeManagement_body").classList.remove("feature_disabled");
+        document.getElementById("side_employeeManager_button").addEventListener('click',
+        (e)=>{
+            EM_getEmployeeList();
+            showPage(document.getElementById("side_employeeManager_button"), document.getElementById("main_employeeManagement_body"));
+        });
+        EM_linkToDom();
         //link function
     }
 }

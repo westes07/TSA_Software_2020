@@ -58,6 +58,14 @@ h1 {
     height: 30px;
     font-size: 20pt;
 }
+
+
+.em_textBox{
+    all: unset;
+    padding: 10px;
+    margin: 5px;
+    border-bottom: #e6592e 3px solid;
+}
 /*
 ----------------------------------------BUTTONS------------------------------------------------
 */
@@ -117,6 +125,21 @@ h1 {
     position: absolute;
     font-size: 18pt;
     padding: 5px 15px 15px 15px;
+}
+
+.app_button_frame.em_button {
+    position: absolute;
+    width: 190px;
+    border-right: #e6592e 3px solid;
+    font-size: 13pt;
+}
+
+.app_button_solid.em_button {
+    padding: 10px;
+    position: relative;
+    margin: 10px;
+    display: inline-block;
+
 }
 
 /*
@@ -301,3 +324,35 @@ h1 {
     font-size: 15pt;
 }
 
+
+/*
+----------------------------------------EMPLOYEE-MANAGEMENT-WINDOW--------------------------------------------
+*/
+
+#em_sideBar {
+    position: absolute;
+    width: 200px;
+    height: calc(100% - 3px);
+    border-right: #e6592e 3px solid;
+    border-bottom: #e6592e 3px solid;
+}
+
+#employeeManagement_content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+#em_editor {
+    position: absolute;
+    display: block;
+    left: 203px;
+    padding: 10px;
+    height: calc(100% - 20px);    
+}
+
+
+#em_buttonContainer{
+    position: absolute;
+    top: calc(100% - 80px);
+}
