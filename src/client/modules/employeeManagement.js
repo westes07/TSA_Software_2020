@@ -22,7 +22,7 @@ async function getCurrentEmployees(){
 
 
 function createNewEmployee(){
-
+    //make sure you hash the password before sending it over
 }
 
 function loadEmployeeList(_employeeList){

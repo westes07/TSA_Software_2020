@@ -32,7 +32,7 @@ function sendDataFull(_userName, _sessionID) {
             },
             body: JSON.stringify({
                 userName: userName,
-                password: password/*hashPass(userName,password*/,
+                password: /*password*/hashPass(userName,password),
                 sessionID: _sessionID
             })
         }
@@ -59,8 +59,11 @@ function signIn(_resJSON){
 
 
 // both should be shorter than 32 chars
-
+//=^³)uËÒAØüz
+// oZ
 //©S0{ó`hyK2[M¯ôÄç4©S0{ó\`hyK2[M¯ôÄç4
+// console.log(hashPass("def","1001"));
+//d3c9e53b92211057bc2d10148dcfa791d098f6a5
 
 function hashPass(username, password) {
     return sha1(password+username);//just the simplest way to implement a SALT
