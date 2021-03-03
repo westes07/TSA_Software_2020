@@ -83,6 +83,7 @@ async function loadEditor(_empId){
         document.getElementById("em_employeeLastName").value = empData.EMP_LAST;
         document.getElementById("em_employeeId").value = empData.EMP_ID;
         document.getElementById("em_hourly").value = empData.EMP_WAGE;
+        document.getElementById("em_employeeYtd").value = "$" + empData.EMP_YTD;
 
     }
 
@@ -168,6 +169,6 @@ function linkToDom(){
 
 
 export{
-    getCurrentEmployees as EM_getEmployeeList,
+    closeEditor as EM_closeEditor,
     linkToDom as EM_linkToDom
 }

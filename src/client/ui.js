@@ -1,5 +1,5 @@
 import {TC_linkToDom} from "./modules/timeclock.js";
-import {EM_getEmployeeList, EM_linkToDom} from "./modules/employeeManagement.js"
+import {EM_closeEditor, EM_linkToDom} from "./modules/employeeManagement.js"
 
 function initializeUi(_resJson){
     document.getElementById("userInfo_firstName").innerText = _resJson.firstName;
@@ -35,7 +35,7 @@ function processRules(_rules){
         document.getElementById("main_employeeManagement_body").classList.remove("feature_disabled");
         document.getElementById("side_employeeManager_button").addEventListener('click',
         (e)=>{
-            EM_getEmployeeList();
+            EM_closeEditor(true);
             showPage(document.getElementById("side_employeeManager_button"), document.getElementById("main_employeeManagement_body"));
         });
         EM_linkToDom();
