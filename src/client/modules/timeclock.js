@@ -2,7 +2,8 @@ import {UA_getSessionID, UA_getUserName} from "./userAccount.js";
 
 
 function punch(_action){
-    const empID = document.getElementById("tc_employee_id").value;
+    const empID = 0;
+    // const empID = document.getElementById("tc_employee_id").value;
     // if(empID.length === 0){
     //     document.getElementById("tc_statusBox").innerHTML = "Your Employee ID is required";
     //     document.getElementById("tc_statusBox").style.color = "#ff0000";
@@ -31,7 +32,8 @@ function punch(_action){
 }
 
 function getCurrentPunches(){
-    const empID = document.getElementById("tc_employee_id").value;
+    const empID = 0;
+    // const empID = document.getElementById("tc_employee_id").value;
     // if(empID.length === 0){
     //     document.getElementById("tc_statusBox").innerHTML = "Your Employee ID is required";
     //     document.getElementById("tc_statusBox").style.color = "#ff0000";
