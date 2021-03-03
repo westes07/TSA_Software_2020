@@ -3,15 +3,15 @@ import {UA_getSessionID, UA_getUserName} from "./userAccount.js";
 
 function punch(_action){
     const empID = document.getElementById("tc_employee_id").value;
-    if(empID.length === 0){
-        document.getElementById("tc_statusBox").innerHTML = "Your Employee ID is required";
-        document.getElementById("tc_statusBox").style.color = "#ff0000";
-        setTimeout(() => {
-            document.getElementById("tc_statusBox").innerHTML = "Enter your Employee ID and press the relevant punch";
-            document.getElementById("tc_statusBox").style.color = "";
-        }, 2500);
-        return;
-    }
+    // if(empID.length === 0){
+    //     document.getElementById("tc_statusBox").innerHTML = "Your Employee ID is required";
+    //     document.getElementById("tc_statusBox").style.color = "#ff0000";
+    //     setTimeout(() => {
+    //         document.getElementById("tc_statusBox").innerHTML = "Enter your Employee ID and press the relevant punch";
+    //         document.getElementById("tc_statusBox").style.color = "";
+    //     }, 2500);
+    //     return;
+    // }
     fetch("http://localhost:8081/timeclock/punch", {
         method: "POST",
         headers: {
@@ -32,15 +32,15 @@ function punch(_action){
 
 function getCurrentPunches(){
     const empID = document.getElementById("tc_employee_id").value;
-    if(empID.length === 0){
-        document.getElementById("tc_statusBox").innerHTML = "Your Employee ID is required";
-        document.getElementById("tc_statusBox").style.color = "#ff0000";
-        setTimeout(() => {
-            document.getElementById("tc_statusBox").innerHTML = "Enter your Employee ID and press the relevant punch";
-            document.getElementById("tc_statusBox").style.color = "";
-        }, 2500);
-        return;
-    }
+    // if(empID.length === 0){
+    //     document.getElementById("tc_statusBox").innerHTML = "Your Employee ID is required";
+    //     document.getElementById("tc_statusBox").style.color = "#ff0000";
+    //     setTimeout(() => {
+    //         document.getElementById("tc_statusBox").innerHTML = "Enter your Employee ID and press the relevant punch";
+    //         document.getElementById("tc_statusBox").style.color = "";
+    //     }, 2500);
+    //     return;
+    // }
 
     fetch("http://localhost:8081/timeclock/currentPunches", {
         method: "POST",
