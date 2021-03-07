@@ -9,5 +9,6 @@ try{
     console.log(no);
 }
 
+window.restLocation = window.location.hostname;
 
 document.getElementById("submit").addEventListener("click", UA_sendData);

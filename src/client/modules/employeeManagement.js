@@ -3,7 +3,7 @@ import {UA_getSessionID, UA_getUserName} from "./userAccount.js"
 async function getCurrentEmployees(){
 
 
-    fetch("http://localhost:8081/emp/getEmployees",{
+    fetch("http://" + window.restLocation+ ":8081/emp/getEmployees",{
         method: "POST",
         headers:{
             Accept: "application/json",
@@ -62,7 +62,7 @@ async function loadEditor(_empId){
     console.log(_empId);
     document.getElementById("em_editor").classList.remove("app_hidden");
     if(_empId !== "new"){
-        let empData = await fetch("http://localhost:8081/emp/getEmployees", {
+        let empData = await fetch("http://"+window.restLocation + ":8081/emp/getEmployees", {
             method: "POST",
             headers:{
                 Accept: "application/json",
@@ -97,7 +97,7 @@ function commitChanges(){
     const empLast = document.getElementById("em_employeeLastName").value;
     const empWage = document.getElementById("em_hourly").value;
 
-    fetch("http://localhost:8081/emp/setEmployees", {
+    fetch("http://"+window.restLocation+":8081/emp/setEmployees", {
         method: "POST",
         headers:{
             Accept: "application/json",

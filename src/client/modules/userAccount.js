@@ -83,7 +83,7 @@ function verifyValid(username, password){
 
 function getNewSessionID(_userName, _oldSessionID) {
     const empID = document.getElementById("tc_employee_id").value;
-    fetch("http://localhost:8081/auth/sessionID",{
+    fetch("http://" + window.restLocation + ":8081/auth/sessionID",{
         method: "POST",
             headers: {
             Accept: "application/json",

@@ -13,7 +13,7 @@ function punch(_action){
     //     }, 2500);
     //     return;
     // }
-    fetch("http://localhost:8081/timeclock/punch", {
+    fetch("http://" + window.restLocation+ ":8081/timeclock/punch", {
         method: "POST",
         headers: {
             Accept: "application/json",
@@ -44,7 +44,7 @@ function getCurrentPunches(){
     //     return;
     // }
 
-    fetch("http://localhost:8081/timeclock/currentPunches", {
+    fetch("http://" + window.restLocation +":8081/timeclock/currentPunches", {
         method: "POST",
         headers: {
             Accept: "application/json",
