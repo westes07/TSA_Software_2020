@@ -32,7 +32,7 @@ function sendDataFull(_userName, _sessionID) {
 
     console.log( "sending sessionID: " + _sessionID);
     console.log( "sending userName: " + userName);
-    fetch("http://localhost:8081/auth/manager", {
+    fetch("http://"+window.restLocation+":8081/auth/manager", {
             method:"POST",
             headers: {
                 Accept: "application/json",
