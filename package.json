@@ -1,10 +1,11 @@
 {
   "name": "@trihardstudios/payroll",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": "true",
   "scripts": {
     "run_dev": "node src/app.mjs config/config_nfp.json",
-    "run_dev_no_db": "node src/app.mjs config/config_nfp.json --no_db"
+    "run_dev_no_db": "node src/app.mjs config/config_nfp.json --no_db",
+    "setup": "node src/app.mjs --new"
   },
   "dependencies": {
     "@azure/cosmos": "^3.9.5",
@@ -15,6 +16,7 @@
     "http": "0.0.1-security",
     "mysql2": "^2.2.5",
     "path": "^0.12.7",
+    "readline-sync": "^1.4.10",
     "url": "^0.11.0",
     "util": "^0.12.3"
   }

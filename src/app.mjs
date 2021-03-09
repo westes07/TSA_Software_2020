@@ -2,14 +2,28 @@ import { createRequire } from 'module'
 const require = createRequire(import.meta.url);
 const fs = require("fs");
 const path = require("path");
+
 import {ex_startHttpServer} from "./server/server.mjs";
 import {ex_startRestServer} from "./server/server.mjs";
 import {DBM_initDB} from "./server/database/DBM_api.mjs";
 
 
-let configFile = process.argv[2] || "config/config.json";
+if (process.argv.length <= 2){
+    console.log("WARN: Using default options");
+} else {
+    if(process.argv[2] === "--new"){
+        // run first run config stuff
+        
+        process.exit(0);
+    }
 
-global.devNoServer = process.argv[3] === "--no_db";
+    //first paremeter must be the config file
+    let configFile = process.argv[2] || "config/config.json";
+
+
+    global.devNoServer = process.argv[3] === "--no_db";
+
+}
 
 console.log("INFO: Loading Config File: " + configFile);
 
@@ -26,7 +40,8 @@ if(!fs.existsSync(configFile)){
 const parsedConfig = JSON.parse(fs.readFileSync(configFile, null));
 
 if(parsedConfig.database.usingCloud && !parsedConfig.database.loadAuthInfoFromEnv){
-    console.error("ERROR: API Keys must be loaded from environment variables");
+    console.error("ERROR: Cloud API Keys must be loaded from environment variables");
+    console.error("WARN: Please regenerate your API keys as they may be comprimised");
     process.exit(0);
 } else if(parsedConfig.database.usingCloud && parsedConfig.database.loadAuthInfoFromEnv){
     if(!process.env.TSA_2020_DB_KEY){
