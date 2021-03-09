@@ -9,6 +9,6 @@ try{
     console.log(no);
 }
 
-window.restLocation = window.location.hostname;
+window.restLocation = window.location.hostname; //change this to be more dynamic 
 
 document.getElementById("submit").addEventListener("click", UA_sendData);

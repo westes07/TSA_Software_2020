@@ -1,0 +1,16 @@
+{
+    "company_name": "Real Company LLC",
+    
+
+
+    "branding": {
+        "custom_css": "false",
+        "custom_css_loc": "",
+        "logo": {
+            "25x25": "",
+            "50x50": "",
+            "150X150":"",
+            "fullSize":""
+        }
+    }
+}
