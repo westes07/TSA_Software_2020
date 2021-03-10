@@ -6,6 +6,14 @@ const readlineSync = require("readline-sync")
 const color = require("colors")
 
 import {s_validateDbInfo} from "./DBM_setup.mjs"
+import {
+    s_getFunctionList,
+    s_generateRestData
+} from "./rest_setup.mjs"
+import {
+    s_writeConfig, 
+    s_setEnviromentalVars
+} from "./writeData.mjs"
 
 
 color.setTheme({
@@ -29,7 +37,7 @@ async function setup(){
         return;
     }
     console.clear();
-    console.log("Welcome to Payroll 2020 Setup".header);
+    console.log("-----------------Welcome to Payroll 2020 Setup----------------".header);
     console.log("You will need your Azure Cosmos API key, your existing employee information, and branding info.".important);
     console.log("If you would prefer to create your config files from scratch please exit this utility and refer to".important + 
                 "the documentation for the required information.".important);
@@ -38,7 +46,7 @@ async function setup(){
         return;
     }
     console.clear();
-    console.log("Database Setup".header);
+    console.log("------------------------Database Setup-------------------------".header);
     let database_config = {
         emp: {},
         user: {}
@@ -65,11 +73,58 @@ async function setup(){
         database_config.address = readlineSync.question("Please enter the server address including the port: ".question);
         database_config.emp.authKey = readlineSync.question("Please enter the API key: ".question);
         database_config.user.authKey = database_config.emp.authKey;
-        console.log("Checking infomation. Please ensure that the database is ready and press enter when you are ready".question);
+        console.log("Checking infomation. Please ensure that the database is ready and press space when you are ready".question);
         readlineSync.keyInPause();
     } while (!s_validateDbInfo(database_config));
 
     console.log("Database Information has been validated".important);
+    console.log("Writing Enviromental Variables".important);
+
+    console.clear();
+    let avaiableFunctions = s_getFunctionList();
+    let functionsToEnable = []
+    let index;
+    do{
+        console.clear();
+        console.log("------------------------REST Setup-------------------------".header);
+        if(avaiableFunctions.length >= 1){
+            index = readlineSync.keyInSelect(avaiableFunctions, "Please type the number of the REST api that you would like to enable.\nYou currently have ".question + 
+            functionsToEnable.length+" functions enabled.\nWhen you are finished press 0.".question);
+        } else if (avaiableFunctions.length === 1){
+            console.log("[1] " +avaiableFunctions);
+            console.log("[0] CANCEL\n\n");
+            index = readlineSync.keyIn("Please type the number of the REST api that you would like to enable.\nYou currently have ".question + 
+            functionsToEnable.length+" functions enabled.\nWhen you are finished press 0.".question, {limit: '$<0-1>'});
+            index--;
+        } else {
+            break;
+        }
+        if(avaiableFunctions.length !== 1)
+            functionsToEnable.push(avaiableFunctions[index]);
+        else if (index !== -1)
+            functionsToEnable.push(avaiableFunctions[0]);
+        if(index !== -1){
+            avaiableFunctions.splice(index, 1);
+        }
+    }while (index !== -1)
+
+    console.clear();
+    console.log("------------------------Server Setup-------------------------".header);
+    console.log("Commiting your changes".important);
+    const rest_server = s_generateRestData(functionsToEnable);
+    console.log("Changes commited. Server setup is complete.".important)
+    if(!readlineSync.keyInYNStrict("Would you like to write your changes to disk?".important)){
+        console.log("Write aborted. Setup will now exit.".important);
+        return;
+    }
+    s_setEnviromentalVars("TSA_2020_DB_KEY", database_config.emp.authKey);
+    database_config.emp.authKey = "";
+    database_config.user.authKey = "";
+    let serverConfig = {rest_server: rest_server, server_config: database_config};
+    s_writeConfig(serverConfigFilename, serverConfig);
+
+
+
 }
 
 
