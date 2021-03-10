@@ -8,6 +8,7 @@ import {
     ex_startRestServer
 } from "./server/server.mjs";
 import {DBM_initDB} from "./server/database/DBM_api.mjs";
+import {ex_setup} from "./setup/setup.mjs"
 
 let configFile;
 let argc = process.argv.length;
@@ -18,7 +19,9 @@ if (argc <= 2){// There needs to be at least a config file defined
 } else {
     if(process.argv[2] === "--new"){
         // run first run config stuff
+        console.log("INFO: Entering Setup");
 
+        await ex_setup();
         process.exit(0);
     }
 
