@@ -63,8 +63,8 @@ if (!global.noDatabase) {
             process.exit(0);
         }
 
-        parsedConfig.database.emp.authKey = process.env.TSA_2020_DB_KEY;
-        parsedConfig.database.user.authKey = process.env.TSA_2020_DB_KEY;
+        parsedConfig.database_config.emp.authKey = process.env.TSA_2020_DB_KEY;
+        parsedConfig.database_config.user.authKey = process.env.TSA_2020_DB_KEY;
 
     } else {
         console.error("ERROR: Unhanded DB load case");
