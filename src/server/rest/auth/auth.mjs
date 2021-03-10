@@ -10,7 +10,7 @@ async function auth_manager(req, res) {
     //todo move this to a the DBM API
     console.log("User: " + req.body.userName + " is attempting to log in");
 
-    if(global.devNoServer) {
+    if(global.noDatabase) {
         let snd = JSON.parse(
             fs.readFileSync("config/no_db_auth_file.json", null)
         );

@@ -18,7 +18,7 @@ async function timeclock_punch(req, res) {
     console.log(empID);
     console.log(empID.EMP_ID);
 
-    if(global.devNoServer){
+    if(global.noDatabase){
         let result = {
             status: "No DB connection, Punches are not logged",
             punches: [{
@@ -50,7 +50,7 @@ async function timeclock_getPunches(req, res){
     console.log(empID);
     console.log(empID.EMP_ID);
 
-    if(global.devNoServer){
+    if(global.noDatabase){
         res.send({status: "ERROR: DB connection error"});
         return;
     }

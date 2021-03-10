@@ -8,7 +8,6 @@ const http = require("http");
 const url = require("url");
 const fs = require("fs");
 const path = require("path");
-const port = process.env.PORT || 8080;
 
 const app = express();
 app.use(bodyParser.json());
@@ -56,7 +55,7 @@ function startHttpServer(contentRoot) {
             if(err){
                 res.statusCode = 500;
                 //todo add 500 path
-                res.end("ERROR: %s occured while getting files", err);
+                res.end("ERROR:" + err + "occurred while getting files");
             }
             else{
                 const ext = path.parse(urlPath).ext;
@@ -65,11 +64,8 @@ function startHttpServer(contentRoot) {
             }
         })
 
-
-
-
-    }).listen( port);
-    console.log("INFO: Server is serving files from ", contentRoot, " on port ", port);
+    }).listen((process.env.PORT || "8080"));
+    console.log("INFO: Server is serving files from ", contentRoot, " on port ", (process.env.PORT || "8080"));
 
     
 
@@ -86,10 +82,10 @@ function startRestServer(configJSON){
         app.post(configJSON.post_data[i].command, functionMap.get(configJSON.post_data[i].function_id));
     }
 
-    var server = app.listen(8081, function () {
+    let server = app.listen(8081, function () {
         let host = server.address().address;
         let port = server.address().port;
-        console.log("Rest Server is now listenting");
+        console.log("INFO: Rest Server is now listening on port: " + port);
     });
     
 }

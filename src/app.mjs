@@ -3,25 +3,39 @@ const require = createRequire(import.meta.url);
 const fs = require("fs");
 const path = require("path");
 
-import {ex_startHttpServer} from "./server/server.mjs";
-import {ex_startRestServer} from "./server/server.mjs";
+import {
+    ex_startHttpServer,
+    ex_startRestServer
+} from "./server/server.mjs";
 import {DBM_initDB} from "./server/database/DBM_api.mjs";
 
-
-if (process.argv.length <= 2){
-    console.log("WARN: Using default options");
+let configFile;
+let argc = process.argv.length;
+if (argc <= 2){// There needs to be at least a config file defined
+    //change this to print a help page instead
+    console.error("ERROR: No config file");
+    process.exit(0);
 } else {
     if(process.argv[2] === "--new"){
         // run first run config stuff
-        
+
         process.exit(0);
     }
 
-    //first paremeter must be the config file
-    let configFile = process.argv[2] || "config/config.json";
+    //first parameter must be the config file
+    if(!process.argv[2].includes(".json")) {
+        console.error("ERROR: Config file must be the first parameter");
+        process.exit(0);
+    }
+    configFile = process.argv[2];
 
+    let remainingArgs = "";
+    for(let i = 2; i < argc; i++) {
+        remainingArgs += process.argv[i];
+    }
 
-    global.devNoServer = process.argv[3] === "--no_db";
+    global.noDatabase = remainingArgs.includes("--nD");
+    global.devMode = remainingArgs.includes("--dev");
 
 }
 
@@ -38,34 +52,36 @@ if(!fs.existsSync(configFile)){
 
 
 const parsedConfig = JSON.parse(fs.readFileSync(configFile, null));
+if (!global.noDatabase) {
+    if (parsedConfig.database_config.usingCloud && !parsedConfig.database_config.loadAuthInfoFromEnv) {
+        console.error("ERROR: Cloud API Keys must be loaded from environment variables");
+        console.error("WARN: Please regenerate your API keys as they may be compromised");
+        process.exit(0);
+    } else if (parsedConfig.database_config.usingCloud && parsedConfig.database_config.loadAuthInfoFromEnv) {
+        if (!process.env.TSA_2020_DB_KEY) {
+            console.error("ERROR: Database API key does not exist");
+            process.exit(0);
+        }
 
-if(parsedConfig.database.usingCloud && !parsedConfig.database.loadAuthInfoFromEnv){
-    console.error("ERROR: Cloud API Keys must be loaded from environment variables");
-    console.error("WARN: Please regenerate your API keys as they may be comprimised");
-    process.exit(0);
-} else if(parsedConfig.database.usingCloud && parsedConfig.database.loadAuthInfoFromEnv){
-    if(!process.env.TSA_2020_DB_KEY){
-        console.error("ERROR: Database API key does not exist");
+        parsedConfig.database.emp.authKey = process.env.TSA_2020_DB_KEY;
+        parsedConfig.database.user.authKey = process.env.TSA_2020_DB_KEY;
+
+    } else {
+        console.error("ERROR: Unhanded DB load case");
         process.exit(0);
     }
-
-    parsedConfig.database.emp.authKey = process.env.TSA_2020_DB_KEY;
-    parsedConfig.database.user.authKey = process.env.TSA_2020_DB_KEY;
-
-} else {
-    console.error("ERROR: Unhanded DB load case");
-    process.exit(0);
 }
-
 
 
 try{
-    if(!global.devNoServer)
-        DBM_initDB(parsedConfig.database);
+    if(!global.noDatabase)
+        DBM_initDB(parsedConfig.database_config);
+    else{}
+
+    ex_startRestServer(parsedConfig.rest_server);
+    ex_startHttpServer("src/client");
+
 } catch (err){
     console.error(err);
 }
-
-ex_startRestServer(parsedConfig.rest);
-ex_startHttpServer("src/client");
 

@@ -3,8 +3,8 @@
   "version": "0.0.2",
   "private": "true",
   "scripts": {
-    "run_dev": "node src/app.mjs config/config_nfp.json",
-    "run_dev_no_db": "node src/app.mjs config/config_nfp.json --no_db",
+    "run_dev": "node src/app.mjs config/server_config.json --dev",
+    "run_dev_no_db": "node src/app.mjs config/server_config.json --dev --nD",
     "setup": "node src/app.mjs --new"
   },
   "dependencies": {
