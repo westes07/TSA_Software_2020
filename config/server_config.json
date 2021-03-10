@@ -19,7 +19,7 @@
         },
         {
           "command": "/auth/sessionID",
-          "function_id": "generate_session_ID_func"
+          "function_id": "auth_generateSessionID_func"
         },
         {
           "command": "/timeclock/punch",
@@ -49,7 +49,7 @@
       "cloudPartitionKey": "/payroll_db.key",
       "cloudDBName": "payroll_db",
       "address": "https://tsa-2020-payroll.documents.azure.com:443/",
-      
+
       "emp": {
         "authKey": ""
       },
