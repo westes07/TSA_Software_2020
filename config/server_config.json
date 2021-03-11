@@ -27,7 +27,7 @@
         },
         {
           "command": "/timeclock/currentPunches",
-          "function_id": "timeclock_current_func"
+          "function_id": "timeclock_currentPunches_func"
         },
         {
           "command": "/emp/getEmployees",

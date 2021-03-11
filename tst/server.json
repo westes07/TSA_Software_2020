@@ -1,0 +1,55 @@
+{
+  "rest_server": {
+    "get_data": [
+      {
+        "command": "/system/store/branding",
+        "function_id": "store_branding_func"
+      },
+      {
+        "command": "/system/store/info",
+        "function_id": "store_info_func"
+      }
+    ],
+    "post_data": [
+      {
+        "command": "/auth/generateSessionID",
+        "function_id": "auth_generateSessionID_func"
+      },
+      {
+        "command": "/emp/setEmployees",
+        "function_id": "emp_setEmployees_func"
+      },
+      {
+        "command": "/emp/getEmployees",
+        "function_id": "emp_getEmployees_func"
+      },
+      {
+        "command": "/timeclock/currentPunches",
+        "function_id": "timeclock_currentPunches_func"
+      },
+      {
+        "command": "/timeclock/punch",
+        "function_id": "timeclock_punch_func"
+      },
+      {
+        "command": "/auth/manager",
+        "function_id": "auth_manager_func"
+      }
+    ],
+    "get_num": 2,
+    "post_num": 6
+  },
+  "database_config": {
+    "emp": {
+      "authKey": ""
+    },
+    "user": {
+      "authKey": ""
+    },
+    "usingCloud": 1,
+    "loadAuthInfoFromEnv": 1,
+    "cloudDBName": "payroll_db",
+    "cloudPartitionKey": "/payroll_db.key",
+    "address": "https://tsa-2020-payroll.documents.azure.com:443/"
+  }
+}

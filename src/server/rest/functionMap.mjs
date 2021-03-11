@@ -7,7 +7,7 @@ let functionMap = new Map();
 
 functionMap.set("auth_manager_func", fm_auth_manager);
 functionMap.set("timeclock_punch_func", fm_timeclock_punch)
-functionMap.set("timeclock_current_func", fm_timeclockCurrent)
+functionMap.set("timeclock_currentPunches_func", fm_timeclockCurrent)
 functionMap.set("auth_generateSessionID_func", fm_generate_session_ID);
 functionMap.set("emp_getEmployees_func", fm_getEmployees);
 functionMap.set("emp_setEmployees_func", fm_setEmployees);

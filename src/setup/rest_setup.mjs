@@ -11,27 +11,31 @@ function generateRestData(_functionsToEnable){
         get_data: [],
         post_data: []
     }
+    let functions = [..._functionsToEnable];//oml js copies by ref unless you do this.
 
     const length = _functionsToEnable.length;
     // console.log(_functionsToEnable);
     for(let i = 0; i < length; i++){
         // console.log(_functionsToEnable[i]);
-        if(!_functionsToEnable[i]){
-            break;
-        }
-        _functionsToEnable[i] = _functionsToEnable[i].replace(/_/g, "/");
-        _functionsToEnable[i] = _functionsToEnable[i].slice(_functionsToEnable[i].indexOf("/func")-1, 5);
+        functions[i] = functions[i].replace(/_/g, "/");
+        functions[i] = functions[i].slice(0, functions[i].indexOf("/func"));
+        functions[i] = "/" + functions[i];
     }
 
     for(let i = 0; i < length; i++){
-        if(!_functionsToEnable[i]){
-            break;
-        }
-        if(_functionsToEnable[i].includes("store")){
-            _functionsToEnable[i] = "/system" + _functionsToEnable[i];
-            rest_server.get_data.push(_functionsToEnable[i]);
+        if(functions[i].includes("store")){
+            functions[i] = "/system" + functions[i];
+            let getData = {
+                command: functions[i],
+                function_id: _functionsToEnable[i]
+            }
+            rest_server.get_data.push(getData);
         } else {
-            rest_server.post_data.push(_functionsToEnable[i]);
+            let postData = {
+                command: functions[i],
+                function_id: _functionsToEnable[i]
+            }
+            rest_server.post_data.push(postData);
         }
     }
 

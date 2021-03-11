@@ -7,16 +7,8 @@ function writeConfig(_path, _json){
     console.log("Data written to " + _path + " successfully");
 }
 
-function setEnviromentalVars(_name, _data){
-    console.log("This function is not currently implemented");
-
-}
-
-
-
 
 
 export {
-    setEnviromentalVars as s_setEnviromentalVars,
     writeConfig as s_writeConfig,
 }

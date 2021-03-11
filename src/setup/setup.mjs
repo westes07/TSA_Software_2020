@@ -10,10 +10,7 @@ import {
     s_getFunctionList,
     s_generateRestData
 } from "./rest_setup.mjs"
-import {
-    s_writeConfig, 
-    s_setEnviromentalVars
-} from "./writeData.mjs"
+import {s_writeConfig} from "./writeData.mjs"
 
 
 color.setTheme({
@@ -32,10 +29,10 @@ function createUserAccount(_userInfo){
 
 
 async function setup(){
-    if(await !isElevated()) {
-        console.error("FATAL: Setup must be run with sudo or admin privages");
-        return;
-    }
+    // if(!await isElevated()) {
+    //     console.error("FATAL: Setup must be run with sudo or admin privages");
+    //     return;
+    // }
     console.clear();
     console.log("-----------------Welcome to Payroll 2020 Setup----------------".header);
     console.log("You will need your Azure Cosmos API key, your existing employee information, and branding info.".important);
@@ -81,17 +78,17 @@ async function setup(){
     console.log("Writing Enviromental Variables".important);
 
     console.clear();
-    let avaiableFunctions = s_getFunctionList();
+    let availableFunctions = s_getFunctionList();
     let functionsToEnable = []
     let index;
     do{
         console.clear();
         console.log("------------------------REST Setup-------------------------".header);
-        if(avaiableFunctions.length >= 1){
-            index = readlineSync.keyInSelect(avaiableFunctions, "Please type the number of the REST api that you would like to enable.\nYou currently have ".question + 
+        if(availableFunctions.length >= 1){
+            index = readlineSync.keyInSelect(availableFunctions, "Please type the number of the REST api that you would like to enable.\nYou currently have ".question +
             functionsToEnable.length+" functions enabled.\nWhen you are finished press 0.".question);
-        } else if (avaiableFunctions.length === 1){
-            console.log("[1] " +avaiableFunctions);
+        } else if (availableFunctions.length === 1){
+            console.log("[1] " +availableFunctions);
             console.log("[0] CANCEL\n\n");
             index = readlineSync.keyIn("Please type the number of the REST api that you would like to enable.\nYou currently have ".question + 
             functionsToEnable.length+" functions enabled.\nWhen you are finished press 0.".question, {limit: '$<0-1>'});
@@ -99,28 +96,29 @@ async function setup(){
         } else {
             break;
         }
-        if(avaiableFunctions.length !== 1)
-            functionsToEnable.push(avaiableFunctions[index]);
+        if(availableFunctions.length !== 1 && index !== -1)
+            functionsToEnable.push(availableFunctions[index]);
         else if (index !== -1)
-            functionsToEnable.push(avaiableFunctions[0]);
+            functionsToEnable.push(availableFunctions[0]);
         if(index !== -1){
-            avaiableFunctions.splice(index, 1);
+            availableFunctions.splice(index, 1);
         }
     }while (index !== -1)
 
     console.clear();
     console.log("------------------------Server Setup-------------------------".header);
-    console.log("Commiting your changes".important);
+    console.log("Committing your changes".important);
     const rest_server = s_generateRestData(functionsToEnable);
-    console.log("Changes commited. Server setup is complete.".important)
+    console.log("Changes committed. Server setup is complete.".important)
     if(!readlineSync.keyInYNStrict("Would you like to write your changes to disk?".important)){
         console.log("Write aborted. Setup will now exit.".important);
         return;
     }
-    s_setEnviromentalVars("TSA_2020_DB_KEY", database_config.emp.authKey);
+    console.log("IMPORTANT: For security and cross platform compatibility reasons this program will NOT modify your environmental variables.".important +
+                "\nPlease set the \'TSA_2020_DB_KEY\' variable to the API key you set earlier.".important);
     database_config.emp.authKey = "";
     database_config.user.authKey = "";
-    let serverConfig = {rest_server: rest_server, server_config: database_config};
+    let serverConfig = {rest_server: rest_server, database_config: database_config};
     s_writeConfig(serverConfigFilename, serverConfig);
 
 
