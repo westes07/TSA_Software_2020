@@ -228,7 +228,8 @@ h1 {
 #userInfo_firstName{
     display: block;
     position: relative;
-    font-family: 'Roboto Slab Black', sans-serif;
+    font-family: 'Roboto Slab', sans-serif;
+    font-weight: 900;
     font-size: 28pt;
     text-transform: uppercase;
 }
@@ -243,7 +244,8 @@ h1 {
     height: 100%;
     margin-left: 15px;
     margin-top: 5px;
-    font-family: 'Roboto Slab Black', sans-serif;
+    font-family: 'Roboto Slab', sans-serif;
+    font-weight: 900;
     font-size: 40pt;
     text-transform: uppercase;
 }
